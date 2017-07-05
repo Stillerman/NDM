@@ -26,6 +26,9 @@ run -i -p 8000:8000 -e DB_NAME=newlogbook -e DB_HOST=alcdb2 -e DB_USER=jas -e DB
 # . /venv/bin/activate
 # ./manage.py runserver
 ```
+Once the docker is running you can browse to localhost:8000.  You will probably need the browser to send an authentication header.  Do this by visiting http://localhost:8000/admin
+and logging in as testing/trygql
+
 
 ``` Question to slack 
 
