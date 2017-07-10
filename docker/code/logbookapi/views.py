@@ -40,6 +40,7 @@ class RunViewSet(viewsets.ModelViewSet):
     serializer_class = RunSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all().order_by('name')
+    queryset = User.objects.all().order_by('username')
+
     serializer_class = UserSerializer
 
