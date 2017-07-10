@@ -49,6 +49,10 @@ class Header(graphene.ObjectType):
     run = graphene.Int()
     shot = graphene.Int()
     topic = graphene.String()
+    summary = graphene.String()
+
+    def resolve_summary(self, user, args, info):
+        return self.text[:132]
 
 class Body(graphene.ObjectType):
     name = 'Entry Body'
