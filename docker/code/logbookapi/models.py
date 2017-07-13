@@ -85,8 +85,9 @@ class EntryDisplayTemplate(models.Model):
 
 
 class Miniproposal(models.Model):
+    id = models.CharField(db_column='GUID', max_length=36, primary_key=True)  # Field name made lowercase.
     mp = models.IntegerField()
-    id = models.CharField(max_length=10, primary_key=True)
+    mpid = models.CharField(db_column='ID', max_length=10, primary_key=True)
     date_filed = models.DateTimeField()
     title = models.CharField(max_length=100)
     username = models.ForeignKey(User, db_column='name',related_name='miniproposals')
@@ -103,7 +104,6 @@ class Miniproposal(models.Model):
     boronize_overnight = models.SmallIntegerField(blank=True, null=True)
     boronize_shots = models.SmallIntegerField(blank=True, null=True)
     comment = models.CharField(max_length=256, blank=True, null=True)
-    id = models.CharField(db_column='GUID', max_length=36, primary_key=True)  # Field name made lowercase.
 
     class Meta:
         managed = False

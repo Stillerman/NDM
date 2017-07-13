@@ -12,7 +12,7 @@ class TopicViewSet(viewsets.ModelViewSet):
     serializer_class = TopicSerializer
 
 class MiniproposalViewSet(viewsets.ModelViewSet):
-    queryset = Miniproposal.objects.all().order_by('-id')
+    queryset = Miniproposal.objects.all().order_by('-mpid')
     serializer_class = MiniproposalSerializer
 
 class OperatorViewSet(viewsets.ModelViewSet):
