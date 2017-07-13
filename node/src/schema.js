@@ -1,50 +1,36 @@
-import {
-    GraphQLBoolean,
-    GraphQLID,
-    GraphQLList,
-    GraphQLOjbectType,
-    GraphQLSchema,
-    GraphQLString,
-} from 'graphql';
+/**
+ * GraphQL Starter Kit (https://www.reactstarterkit.com/)
+ *
+ * Copyright © 2016-present Kriasoft, LLC. All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
 
-import fetch frfom 'node-fetch';
+/* @flow */
 
-const BASE_URL = 'http://localhost:8000'
+import { GraphQLSchema, GraphQLObjectType } from 'graphql';
+import Viewer from './types/Viewer';
+import User from './types/User';
 
-
-const UserType = new GraphQLObjectType({
-    name: 'Person',
-    description: 'This is a person type',
-
-    fields() => ({
-      id: {type: GraphQLID},
-      username: {type: GraphQLString},
-      phone: {type: GraphQLString},
-      crphone: {type: GraphQLString},
-      email: {type: GraphQLString},
-      address: {type: GraphQLString},
-      firstname: {type: GraphQLString},
-      lastname: {type: GraphQLString},
-      fullname: {type: GraphQLString},
-      comment: {type: GraphQLString},
-      eo: {type: GraphQLBoolean},
-      po: {type: GraphQLBoolean},
-      active: {type: GraphQLBoolean},
-    })
-});
-
-const QueryType = new GraphQLObjectType({
-  name: 'Query',
-  description: 'xxx',
-
-  fields() => ({
-    user: {
-      type: UserType,
-      args: {type: GraphQLString}
-      resolve: (root, args) =>
-        fetch(`${BASE_URL})/user/${args.id}`, {method: 'GET', headers:{ Authorization: 'Basic dGVzdGluZzpsZXRzdHJ5dGhpcw=='}})
-          .then(res => res.json())
-          .then(json => json.user)
+export default new GraphQLSchema({
+  query: new GraphQLObjectType({
+    name: 'Query',
+    fields: {
+      viewer: {
+        type: Viewer,
+        resolve() {
+          return Object.create(null);
+        },
+      },
+      user: {
+        type: User,
+        resolve() {
+          return {
+            email: "jason.t.stillerman@gmail.com"
+          }
+        }
+      }
     },
-  })
-})
+  }),
+});

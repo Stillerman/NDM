@@ -1,54 +1,56 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var graphQLHTTP = require('express-graphql');
-var schema = require('./schema');
+/**
+ * GraphQL Starter Kit (https://www.reactstarterkit.com/)
+ *
+ * Copyright © 2016-present Kriasoft, LLC. All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+/* @flow */
 
-var app = express();
+import express from 'express';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import expressJwt from 'express-jwt';
+import expressGraphQL from 'express-graphql';
+import PrettyError from 'pretty-error';
+import passport from './passport';
+import schema from './schema';
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+const app = express();
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.use('/', index);
-app.use('/users', users);
+app.use(expressJwt({
+  secret: process.env.JWT_SECRET,
+  credentialsRequired: false,
+  getToken: req => req.cookies.id_token,
+}));
 
-app.use(graphQLHTTP({
-    schema,
-    graphiql: true,
-}))
+app.use(passport.initialize());
+app.use('/login', require('./routes/login'));
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
+app.use(expressGraphQL(req => ({
+  schema,
+  context: {
+    user: req.user,
+  },
+  graphiql: process.env.NODE_ENV !== 'production',
+  pretty: process.env.NODE_ENV !== 'production',
+})));
+
+const pe = new PrettyError();
+pe.skipNodeFiles();
+pe.skipPackage('express');
+
+app.use((err, req, res, next) => {
+  process.stderr.write(pe.render(err));
   next(err);
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-app.listen(5000);
-
-module.exports = app;
+export default app;
