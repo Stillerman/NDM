@@ -62,6 +62,18 @@ export default new GraphQLSchema({
         fetch(`${BASE_URL}/users/${args.id}/`, {method: 'GET', headers:{ Authorization: 'Basic dGVzdGluZzpsZXRzdHJ5dGhpcw=='}})
         .then(res => res.json())
         .then(json => json)
+      },
+      users: {
+        type: new GraphQLList(User),
+        resolve: (root, args) => {
+          return fetch(`${BASE_URL}/users/`, {method: 'GET', headers:{ Authorization: 'Basic dGVzdGluZzpsZXRzdHJ5dGhpcw=='}})
+          .then(res => res.json())
+          .then(json => {
+            console.log(json.results)
+            return json
+          })
+          .then(json => json.results)
+        }
       }
     },
   }),
