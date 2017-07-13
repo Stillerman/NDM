@@ -1,17 +1,49 @@
 /**
- * GraphQL Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2016-present Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
+* GraphQL Starter Kit (https://www.reactstarterkit.com/)
+*
+* Copyright © 2016-present Kriasoft, LLC. All rights reserved.
+*
+* This source code is licensed under the MIT license found in the
+* LICENSE.txt file in the root directory of this source tree.
+*/
 
 /* @flow */
 
-import { GraphQLSchema, GraphQLObjectType } from 'graphql';
+import {
+  GraphQLBoolean,
+  GraphQLID,
+  GraphQLList,
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLString,
+} from 'graphql';
 import Viewer from './types/Viewer';
-import User from './types/User';
+import fetch from 'node-fetch';
+
+const BASE_URL = 'http://localhost:8000'
+
+const User = new GraphQLObjectType({
+  name: 'Person',
+  description: 'This is a person type',
+
+  fields() {
+    return {
+      id: {type: GraphQLID},
+      username: {type: GraphQLString},
+      phone: {type: GraphQLString},
+      crphone: {type: GraphQLString},
+      email: {type: GraphQLString},
+      address: {type: GraphQLString},
+      firstname: {type: GraphQLString},
+      lastname: {type: GraphQLString},
+      fullname: {type: GraphQLString},
+      comment: {type: GraphQLString},
+      eo: {type: GraphQLBoolean},
+      po: {type: GraphQLBoolean},
+      active: {type: GraphQLBoolean},
+    }
+  }
+});
 
 export default new GraphQLSchema({
   query: new GraphQLObjectType({
@@ -25,11 +57,11 @@ export default new GraphQLSchema({
       },
       user: {
         type: User,
-        resolve() {
-          return {
-            email: "jason.t.stillerman@gmail.com"
-          }
-        }
+        args: {id: {type: GraphQLString}},
+        resolve: (root, args) =>
+        fetch(`${BASE_URL}/users/${args.id}/`, {method: 'GET', headers:{ Authorization: 'Basic dGVzdGluZzpsZXRzdHJ5dGhpcw=='}})
+        .then(res => res.json())
+        .then(json => json)
       }
     },
   }),
