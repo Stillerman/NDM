@@ -85,9 +85,9 @@ class EntryDisplayTemplate(models.Model):
 
 
 class Miniproposal(models.Model):
-    id = models.CharField(db_column='GUID', max_length=36, primary_key=True)  # Field name made lowercase.
+    guid = models.CharField(db_column='GUID', max_length=36, primary_key=True)  # Field name made lowercase.
     mp = models.IntegerField()
-    mpid = models.CharField(db_column='ID', max_length=10, primary_key=True)
+    id = models.CharField(db_column='ID', max_length=10)
     date_filed = models.DateTimeField()
     title = models.CharField(max_length=100)
     username = models.ForeignKey(User, db_column='name',related_name='miniproposals')

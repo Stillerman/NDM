@@ -6,7 +6,6 @@ class ShotSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model=Shot
         fields = '__all__'
-#        fields = ('id','username','po','eo','active','phone','crphone','pager','email','address','firstname','lastname','fullname','hidden','comment','preferences')
 
 class MiniproposalSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

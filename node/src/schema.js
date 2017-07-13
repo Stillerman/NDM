@@ -53,7 +53,8 @@ const MiniProposal = new GraphQLObjectType({
   fields() {
     return {
     mp: {type: GraphQLInt},
-    id: {type: GraphQLID},
+    guid: {type: GraphQLID},
+    id: {type: GraphQLString},
     title: {type: GraphQLString},
     username: {type: GraphQLString},
     url: {type: GraphQLString},
@@ -107,9 +108,9 @@ export default new GraphQLSchema({
       },
       miniproposal: {
         type: MiniProposal,
-        args: {id: {type: GraphQLString}},
+        args: {guid: {type: GraphQLString}},
         resolve: (root, args) =>
-        fetch(`${BASE_URL}/miniproposals/${args.id}/`, {method: 'GET', headers:{ Authorization: 'Basic dGVzdGluZzpsZXRzdHJ5dGhpcw=='}})
+        fetch(`${BASE_URL}/miniproposals/${args.guid}/`, {method: 'GET', headers:{ Authorization: 'Basic dGVzdGluZzpsZXRzdHJ5dGhpcw=='}})
         .then(res => res.json())
         .then(json => {
           console.log(json)
