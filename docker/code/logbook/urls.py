@@ -22,6 +22,7 @@ from logbookapi import views
 from django.contrib import admin
 from graphene_django.views import GraphQLView
 from django.views.decorators.csrf import csrf_exempt
+import debug_toolbar
 
 router = routers.DefaultRouter()
 router.register(r'shots', views.ShotViewSet)
@@ -37,6 +38,7 @@ router.register(r'topics', views.TopicViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^__debug__/', include(debug_toolbar.urls)),
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^graphql', csrf_exempt(GraphQLView.as_view(graphiql=True))),

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
     'logbookapi',
     'rest_framework',
     'graphene_django',
@@ -52,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'logbook.urls'
@@ -147,3 +149,5 @@ REST_FRAMEWORK = {
 GRAPHENE = {
     'SCHEMA': 'logbookapi.schema.schema' # Where your Graphene schema lives
 }
+
+INTERNAL_IPS=('172.17.0.1', '172.17.0.2', '127.0.0.1')
