@@ -1,4 +1,4 @@
-# These are the files for a neo4j docker instance for the project.
+## These are the files for a neo4j docker instance for the project.
 
 To run 
 cd to this directory then:
