@@ -4,9 +4,25 @@ To run
 cd to this directory then:
 ```
 export NDM="$(dirname "$PWD")"
-docker run     --publish=7474:7474 --publish=7687:7687     --volume=$HOME/neo4j/data:/data  --volume=$HOME/neo4j/logs:/logs --volume=$NDM/neo4j/plugins:/plugins  --volume=$NDM/neo4j/conf:/conf --privileged       neo4j
+docker run     --publish=7474:7474 --publish=7687:7687    \
+   --volume=$HOME/neo4j/logs:/logs \
+   --volume=$NDM/neo4j/data:/data  \
+   --volume=$NDM/neo4j/import:/import  \
+   --volume=$NDM/neo4j/plugins:/plugins  \
+   --volume=$NDM/neo4j/conf:/conf --privileged \
+       neo4j
 ```
 
+To get a shell in the running docker get the id with
+```
+ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                                      NAMES
+f9f10121cdb7        neo4j               "/docker-entrypoin..."   8 minutes ago       Up 8 minutes        0.0.0.0:7474->7474/tcp, 7473/tcp, 0.0.0.0:7687->7687/tcp   inspiring_heisenberg
+```
+then run a shell with
+```
+docker exec -i -t f9f10121cdb7 /bin/sh
+```
 This will use these managed directories for /plugins /conf and /data  and create a directory $HOME/logs for the logs.
 
 The plugins and conf enable graphaware/UUID support for neo4j [https://github.com/graphaware/neo4j-uuid]

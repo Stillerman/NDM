@@ -1,2 +1,2 @@
-MATCH (u:User), (m:MiniProp) where m.fullname = u.fullname
-MERGE (u)-[r:AUTHORED]->(m) return r;
+MATCH (u:User), (m:MiniProp) where m.name = u.name
+ MERGE (u)-[r:AUTHORED]->(m) return m, u;
