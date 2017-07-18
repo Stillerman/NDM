@@ -1,6 +1,7 @@
-These are the files for a neo4j docker instance for the project.
+# These are the files for a neo4j docker instance for the project.
 
-To run
+To run 
+cd to this directory then:
 ```
 export NDM="$(dirname "$PWD")"
 docker run     --publish=7474:7474 --publish=7687:7687     --volume=$HOME/neo4j/data:/data  --volume=$HOME/neo4j/logs:/logs --volume=$NDM/neo4j/plugins:/plugins  --volume=$NDM/neo4j/conf:/conf --privileged       neo4j
