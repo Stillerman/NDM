@@ -23,6 +23,7 @@ class OperatorSerializer(serializers.HyperlinkedModelSerializer):
 
 class EntrySerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.ReadOnlyField()
+    dbkey = serializers.ReadOnlyField()
     class Meta:
         model=Entry
         fields = '__all__'
