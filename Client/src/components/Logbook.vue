@@ -1,67 +1,72 @@
 <template lang='html'>
   <div class='logbook'>
     <h1>Welcome to the Logbook.</h1>
-    <!--card v-for='thing in entries' :title='thing'></card-->
-    <ul class='collapsible' data-collapsible='accordion'>
-      <li v-for='entry in entries'>
-        <div class='collapsible-header' style="text-align: left;">
-
-          <div class="row" style="font-weight: bold;">
-            <div class="col s1"><i class='material-icons'>filter_drama</i></div>
-            <div class="col s3"><p>{{entry.header.topic}}</p></div>
-            <div class="col s4"><p>{{entry.header.username}}</p></div>
-            <div class="col s4"><p>{{entry.header.entered | date}}</p></div>
+    <div class="row">
+      <div class="col s1">
+        <i id="settings" @click="showSettings = !showSettings" v-bind:class="{active: showSettings}" class="medium material-icons" style="left:0;">settings</i>
+      </div>
+      <div v-if="showSettings">
+        <div class="col s3">
+          <input type="text" v-model="run" name="Run" placeholder="Run" value="">
+        </div>
+        <div class="col s3">
+          <input type="text" v-model="shot" name="Shot" placeholder="Shot" value="">
+        </div>
+    </div>
+    <div v-else class="input-field col s10">
+          <i class="material-icons prefix">search</i>
+          <input id="icon_prefix" type="text" class="validate">
+          <label for="icon_prefix">Search</label>
+    </div>
           </div>
-          <p v-html="fixNewLines(entry.header.summary)"></p>
-        </div>
-        <div class='collapsible-body'>
-          <carousel autoPlay='true'>
-            <slide>
-              <card title='Entry' :content='fixNewLines(entry.body.text)'>
-              </card>
-            </slide>
-            <slide>
-              <card title='Author' :content='entry.header.username'></card>
-            </slide>
-            <slide>
-              <card title='Meta' :content='getMeta(entry)'></card>
-            </slide>
-          </carousel>
-          <a class='waves-effect waves-light btn'>View Comments ({{0}})</a>
-        </div>
-      </li>
-    </ul>
 
 
-    <a id="NewEntry" href="/#/new" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+    <div v-for='entry in entries' style="text-align: left;">
+      <log-book-row :entry="entry"></log-book-row>
+    </div>
 
+    <popup-editor v-if="editing"></popup-editor>
+    <a id="NewEntry" @click="editing = !editing" class="btn-floating btn-large waves-effect waves-light red"><i v-bind:class="{active: editing}" class="spin material-icons">add</i></a>
   </div>
 
 </template>
 
 <script>
 import Card from '@/components/Card.vue'
-import { Carousel, Slide } from 'vue-carousel'
-import gql from 'graphql-tag'
+import LogBookRow from '@/components/LogBookRow.vue'
+import PopupEditor from '@/components/PopupEditor.vue'
+import eventHub from '@/EventHub.js'
 import axios from 'axios'
+
+import { Carousel, Slide } from 'vue-carousel'
+
+import gql from 'graphql-tag'
 import moment from 'moment'
 
 export default {
   apollo: {
-    entries: gql`{
-      entries(run: 1090909){
-        header{
-          username
-          topic
-          entered
-          summary
+    entries: {
+      query: gql`
+        query getEntries($run: Int!){
+        entries(run: $run){
+          header{
+            username
+            topic
+            entered
+            summary
+          }
+          id
+          body{
+            text
+          }
         }
-        id
-        body{
-          text
+      }`,
+      variables () {
+        return {
+          run: this.run
         }
       }
-    }`
+    }
   },
   filters: {
     fixNewLines: value => value.replace('\n', '<br>'),
@@ -70,21 +75,56 @@ export default {
   components: {
     Card,
     Carousel,
-    Slide
+    Slide,
+    LogBookRow,
+    PopupEditor
   },
-  mounted () {
-    axios.get('')
+  created () {
+    eventHub.$on('new entry', ({topic, username, body}) => {
+      this.editing = false
+      let temp = {
+        header: {
+          username,
+          topic,
+          entered: moment(),
+          summary: body.substring(0, 135)
+        },
+        body: {
+          text: body
+        }
+      }
+
+      axios.post('http://localhost:8000/entry/', {
+        topic,
+        body,
+        username
+      }, {
+        headers: {
+          Authorization: 'Basic dGVzdGluZzpsZXRzdHJ5dGhpcw=='
+        }
+      })
+      .then(response => console.log(response))
+      .then(() => this.entries.push(temp))
+    })
   },
+
   methods: {
     getMeta (entry) {
       return `Created by ${entry.header.username} at ${moment(entry.header.entered).format('llll')}.`
     },
-    fixNewLines: (text) => text.replace('\n', '<br>')
+    fixNewLines: (text) => text.replace('\n', '<br>'),
+    alrt: line => alert(line),
+    isActive: entry => entry.active || false,
+    activate: entry => { entry.active = true },
+    toggle: entry => { entry.active = !(entry.active || false) }
   },
   data () {
     return {
       entries: [],
-      active: true
+      editing: false,
+      run: 1090909,
+      shot: 0,
+      showSettings: false
     }
   }
 }
@@ -97,5 +137,25 @@ export default {
   bottom: 0;
   right: 0;
   margin: 25px;
+
 }
+
+.spin {
+  transition: 0.5s
+}
+.spin.active{
+transform: rotateZ(45deg) scale(1.5);
+}
+
+#settings{
+  transition: 0.3s
+
+}
+
+#settings.active {
+  transform: rotateZ(90deg);
+  color: #f0f0f0;
+
+}
+
 </style>
