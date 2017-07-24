@@ -1,4 +1,5 @@
 from logbookapi.models import Shot,Topic,Miniproposal,Operator,Entry,EntryDisplayPref,EntryDisplayTemplate,Preference,Run,User
+import json
 
 from rest_framework import serializers
 
@@ -22,9 +23,17 @@ class OperatorSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 class EntrySerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.ReadOnlyField()
-    dbkey = serializers.ReadOnlyField()
-    entered = serializers.ReadOnlyField()
+    id = serializers.UUIDField(read_only=True)
+    dbkey = serializers.IntegerField(read_only=True)
+    entered = serializers.DateTimeField(read_only=True)
+
+    username = serializers.CharField()
+    voided = serializers.DateTimeField(allow_null=True, required=False)
+    run = serializers.IntegerField(required=False)
+    shot = serializers.IntegerField(required=False)
+    topic = serializers.CharField()
+    text = serializers.CharField()
+
     class Meta:
         model=Entry
         fields = '__all__'
