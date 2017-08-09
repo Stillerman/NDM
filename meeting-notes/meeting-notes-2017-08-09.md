@@ -24,7 +24,7 @@
   * (could this also be discoverable)
  * That server is potentially a performance choke point
  * That server is potentially a complexity choke point
-6. ![horrible picture of whiteboard](https://github.com/joshStillerman/NDM/blob/master/meeting-notes/whiteboard-8-9-17.jpg "Whiteboard photo")
+6. ![horrible picture of whiteboard](whiteboard-8-9-17.jpg "Whiteboard photo")
 
  
 ## Not discussed with Jason yet, but hopefully he can demo sometthing at meeting Wednesday 8/23
