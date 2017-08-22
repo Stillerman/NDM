@@ -19,8 +19,8 @@
       <div v-if="active" v-html="fixNewLines(entry.body.text)"></div>
     </div>
 
-          <p class="expand" @click="active = !active">{{active ? "Contract" : "Expand"}}</p>
-    
+      <p v-if="needsExpansion(entry)" class="expand" @click="active = !active">{{active ? "Contract" : "Expand"}}</p>
+
 
     <hr>
   </div>
@@ -44,7 +44,8 @@ export default {
     alrt: line => alert(line),
     isActive: entry => entry.active || false,
     activate: entry => { entry.active = true },
-    toggle: entry => { entry.active = !(entry.active || false) }
+    toggle: entry => { entry.active = !(entry.active || false) },
+    needsExpansion: entry => entry.body.text.length !== entry.header.summary.length
   },
   data () {
     return {
