@@ -38,6 +38,23 @@ class EntrySerializer(serializers.HyperlinkedModelSerializer):
         model=Entry
         fields = '__all__'
 
+    def create(self, validated_data):
+        """
+        Create and return a new `Entry` instance, given the validated data.
+        """
+        print('*********************')
+        print(validated_data)
+        print('*********************')
+
+        if 'shot' in validated_data:
+            print("shot is in validated_data")
+            print(validated_data['shot'])
+            if 'run' in validated_data:
+                if validated_data['run'] != validated_data['shot'] // 1000:
+                    raise serializers.ValidationError("Run must be shot / 1000")
+            validated_data['run'] = validated_data['shot'] // 1000 
+        return Entry.objects.create(**validated_data)
+
 class EntryDisplayPrefSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.ReadOnlyField()
     class Meta:
