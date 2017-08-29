@@ -14,7 +14,9 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "EventEmitter": "^1.0.0",
     "apollo-client": "^1.6.0",
+    "auth0-js": "^8.9.3",
     "axios": "^0.16.2",
     "cors": "^2.8.3",
     "gql": "^1.1.2",
