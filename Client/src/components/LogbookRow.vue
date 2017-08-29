@@ -8,7 +8,16 @@
         {{entry.header.topic}}
       </div>
       <div class="col s3">
-        {{entry.header.username}}
+        <span class="connections"></span>
+        <a class='dropdown-button btn' data-activates='dropdown1'>{{entry.header.username}}</a>
+        <ul id='dropdown1' class='dropdown-content'>
+          <li><a href="#!">one</a></li>
+          <li><a href="#!">two</a></li>
+          <li class="divider"></li>
+          <li><a href="#!">three</a></li>
+          <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
+          <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
+        </ul>
       </div>
       <div class="col s3">
         {{entry.header.entered | date}}
@@ -19,7 +28,7 @@
       <div v-if="active" v-html="fixNewLines(entry.body.text)"></div>
     </div>
 
-      <p v-if="needsExpansion(entry)" class="expand" @click="active = !active">{{active ? "Contract" : "Expand"}}</p>
+    <p v-if="needsExpansion(entry)" class="expand" @click="active = !active">{{active ? "Contract" : "Expand"}}</p>
 
 
     <hr>
@@ -49,7 +58,8 @@ export default {
   },
   data () {
     return {
-      active: false
+      active: false,
+      id: Math.random()
     }
   }
 }
@@ -72,5 +82,14 @@ export default {
 
 .bold {
   font-weight: bold;
+}
+
+span.connections {
+  color: #f44336;
+  transition: 0.5s;
+}
+
+span.connections:hover {
+  color: black;
 }
 </style>

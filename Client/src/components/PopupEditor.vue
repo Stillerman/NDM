@@ -10,18 +10,32 @@
     </div>
 
     <div v-if="!preview" class="col s6">
+      <p v-if="showError" class="red">{{error}}</p>
+      <div class="input-field">
+        <select v-model="topic" id="topic" class="browser-default">
+          <option value="" disabled selected>Choose your topic</option>
+          <option v-for="topic in topics" value="topic.topic">{{topic.topic}}</option>
+        </select>
+      </div>
       <div class="input-field">
         <input v-model="username" id="username" type="text"></input>
         <label for="username">Username</label>
       </div>
       <div class="input-field">
-        <input v-model="topic" id="topic" type="text"></input>
-        <label for="topic">Topic</label>
-      </div>
-      <div class="input-field">
         <textarea v-model='body' id="textarea1" class="materialize-textarea"></textarea>
         <label for="textarea1">Body</label>
       </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <input v-model="run" id="run" type="text"></input>
+          <label for="run">Run</label>
+        </div>
+        <div class="input-field col s6">
+          <input v-model="shot" id="shot" type="text"></input>
+          <label for="topic">Shot (Optional)</label>
+        </div>
+      </div>
+
     </div>
 
     <div v-if="preview" class="col s6" style="border: 2px;">
@@ -40,10 +54,16 @@
 <script>
 import marked from 'marked'
 import eventHub from '@/EventHub.js'
+import axios from 'axios'
 
 export default {
   data () {
     return {
+      run: '',
+      shot: '',
+      error: '',
+      showError: false,
+      topics: [],
       username: '',
       topic: '',
       body: ``,
@@ -53,8 +73,25 @@ export default {
   methods: {
     marked,
     submit () {
-      eventHub.$emit('new entry', {topic: this.topic, body: this.body, username: this.username})
+      console.log(this.shot, this.run)
+      if (this.shot.length + this.run.length !== 0) {
+        eventHub.$emit('new entry', {topic: this.topic, body: this.body, username: this.username, run: this.run, shot: this.shot})
+      } else {
+        this.displayError('Shot and Run cannot both be blank.')
+      }
+    },
+    displayError (e) {
+      this.error = e
+      this.showError = true
     }
+  },
+  mounted () {
+    axios.get('http://localhost:8000/topics/', {
+      headers: {
+        Authorization: 'Basic dGVzdGluZzpsZXRzdHJ5dGhpcw=='
+      }
+    })
+    .then(response => { this.topics = response.data.results })
   }
 }
 </script>

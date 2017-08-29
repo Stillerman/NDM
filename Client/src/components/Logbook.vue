@@ -1,6 +1,6 @@
 <template lang='html'>
   <div class='logbook'>
-    <h1>Welcome to the Logbook.</h1>
+    <h1>Welcome to the Logbook</h1>
     <div class="row">
       <div class="col s1">
         <i id="settings" @click="showSettings = !showSettings" v-bind:class="{active: showSettings}" class="medium material-icons" style="left:0;">settings</i>
@@ -66,7 +66,8 @@ export default {
           run: this.run
         }
       }
-    }
+    },
+    pollInterval: 5000 // Milliseconds
   },
   filters: {
     fixNewLines: value => value.replace('\n', '<br>'),
@@ -80,7 +81,7 @@ export default {
     PopupEditor
   },
   created () {
-    eventHub.$on('new entry', ({topic, username, body}) => {
+    eventHub.$on('new entry', ({topic, username, body, run, shot}) => {
       this.editing = false
       let temp = {
         header: {
@@ -93,11 +94,13 @@ export default {
           text: body
         }
       }
-
+      console.log('run', run)
       axios.post('http://localhost:8000/entry/', {
         topic,
-        body,
-        username
+        text: body,
+        username,
+        run
+
       }, {
         headers: {
           Authorization: 'Basic dGVzdGluZzpsZXRzdHJ5dGhpcw=='
