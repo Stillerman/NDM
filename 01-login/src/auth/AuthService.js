@@ -7,6 +7,8 @@ export default class AuthService {
   authenticated = this.isAuthenticated()
   authNotifier = new EventEmitter()
 
+  destination = {}
+
   constructor () {
     this.login = this.login.bind(this)
     this.setSession = this.setSession.bind(this)
@@ -24,14 +26,25 @@ export default class AuthService {
   })
 
   login () {
+    console.log('in login')
+    console.log('location.pathname = ', location.pathname)
+    localStorage.setItem('destination', location.pathname)
+    this.destination.place = 'pizza'
+    console.log('now authorize')
     this.auth0.authorize()
   }
 
   handleAuthentication () {
+    var that = this
+    debugger
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
+        console.log(router)
+        console.log(authResult)
         this.setSession(authResult)
-        router.replace('home')
+        console.log('LS Destination:', localStorage.destination)
+        console.log('Destination:', that.destination.place)
+        router.replace(localStorage.destination)
       } else if (err) {
         router.replace('home')
         console.log(err)
