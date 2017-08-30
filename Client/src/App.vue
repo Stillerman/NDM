@@ -1,14 +1,15 @@
 <template>
   <div id="app">
-    <button
-      class="btn btn-primary btn-margin"
+    <button class="btn btn-primary btn-margin login"
       v-if="!authenticated"
       @click="login()">
         Log In
     </button>
 
+
+    <p v-if="authenticated">{{getUser()}}</p>
     <button
-      class="btn btn-primary btn-margin"
+      class="btn btn-primary btn-margin login"
       v-if="authenticated"
       @click="logout()">
         Log Out
@@ -31,14 +32,19 @@ export default {
     authNotifier.on('authChange', authState => {
       this.authenticated = authState.authenticated
     })
+
     return {
+      username: '',
       auth,
       authenticated
     }
   },
   methods: {
     login,
-    logout
+    logout,
+    getUser () {
+      return localStorage.sub
+    }
   }
 }
 </script>
@@ -56,5 +62,11 @@ export default {
 img.resize {
     width:340px;
     height: auto;
+}
+
+.login {
+  position: fixed;
+  right: 0;
+  top: 0;
 }
 </style>

@@ -50,7 +50,7 @@ export default class AuthService {
     localStorage.setItem('id_token', authResult.idToken)
     localStorage.setItem('state', authResult.state)
     localStorage.setItem('refreshToken', authResult.refreshToken)
-    localStorage.setItem('idTokenPayload', authResult.idTokenPayload)
+    localStorage.setItem('sub', authResult.idTokenPayload.sub)
 
     localStorage.setItem('expires_at', expiresAt)
     this.authNotifier.emit('authChange', { authenticated: true })
