@@ -14,12 +14,12 @@
         Log Out
     </button>
     <img class="resize" src="./assets/logo.png">
-    <router-view></router-view>
+    <router-view :auth="auth" :authenticated="authenticated"></router-view>
   </div>
 </template>
 
 <script>
-import AuthService from './auth/AuthService'
+import AuthService from './auth/AuthService.js'
 
 const auth = new AuthService()
 

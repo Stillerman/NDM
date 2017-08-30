@@ -24,6 +24,7 @@ export default class AuthService {
   })
 
   login () {
+    localStorage.setItem('destination', location.pathname)
     this.auth0.authorize()
   }
 
@@ -31,9 +32,9 @@ export default class AuthService {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult)
-      //  router.replace('logbook')
+        router.replace(localStorage.destination)
       } else if (err) {
-      //  router.replace('logbook')
+        router.replace('logbook')
         console.log(err)
         alert(`Error: ${err.error}. Check the console for further details.`)
       }

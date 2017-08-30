@@ -10,8 +10,7 @@ export default {
   name: 'callback',
   props: ['auth'],
   data () {
-    console.log(this.auth)
-    // this.auth.handleAuthentication()
+    this.auth.handleAuthentication()
     return {}
   }
 }
