@@ -31,8 +31,8 @@ docker run -d --name orientdb \
 -v $PWD/orientdb/databases:/orientdb/databases \
 -v $PWD/orientdb/backup:/orientdb/backup \
 -v $PWD/orientdb/local:/orientdb/local \
--e ORIENTDB_ROOT_PASSWORD=ankmyx\
-orientdb\
+-e ORIENTDB_ROOT_PASSWORD=ankmyx \
+orientdb \
 /orientdb/bin/server.sh
 ```
 
