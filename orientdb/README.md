@@ -39,7 +39,11 @@ orientdb \
 Mounting the local directories with `-v` is import for persistence.
 
 At this point, you should be able to open Studio on the host system at
-http://localhost:2480
+http://localhost:2480 . Log in with:
+```
+ username: root
+ password: ankmyx
+```
 If the docker host is not your desktop/laptop, you can forward ports, eg:
 
     ssh -L2480:172.17.0.2:2480 -L2424:172.17.0.2:2424  ndm@192.168.0.102
