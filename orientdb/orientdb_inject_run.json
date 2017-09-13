@@ -1,0 +1,25 @@
+{
+  "source": { "file": { "path": "/orientdb/local/runs.csv" } },
+    "extractor": { "csv": {"columns":["username","entered:datetime","run:integer","brief","dbkey:string"]} },
+  "transformers": [
+      { "vertex": { "class": "Run" } }
+  ],
+  "loader": {
+    "orientdb": {
+       "dbURL": "remote:172.17.0.1/databases/ndm_db",
+	"dbUser": "admin",
+	"dbPassword": "admin",
+	"serverUser": "root",
+	"serverPassword": "ankmyx",
+       "dbType": "graph",
+       "classes": [
+           {"name": "Run", "extends": "V"},
+	   {"name": "User", "extends": "V"},
+           {"name": "Miniprop",   "extends":"V"},
+           {"name": "HasAuthor", "extends":"E"}
+       ], "indexes": [
+           {"class":"Run", "fields":["run:integer"]  , "type":"UNIQUE"  }
+       ]
+    }
+  }
+}
