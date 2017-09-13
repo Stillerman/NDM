@@ -34,7 +34,7 @@ export default class AuthService {
         this.setSession(authResult)
         router.replace(localStorage.destination)
       } else if (err) {
-        router.replace('logbook')
+        router.replace('/')
         console.log(err)
         alert(`Error: ${err.error}. Check the console for further details.`)
       }
