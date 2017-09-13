@@ -20,7 +20,7 @@ export default class AuthService {
     redirectUri: AUTH_CONFIG.callbackUrl,
     audience: `https://${AUTH_CONFIG.domain}/userinfo`,
     responseType: 'token id_token',
-    scope: 'openid'
+    scope: 'openid profile email'
   })
 
   login () {
@@ -48,6 +48,7 @@ export default class AuthService {
     )
     localStorage.setItem('access_token', authResult.accessToken)
     localStorage.setItem('id_token', authResult.idToken)
+    localStorage.setItem('name', authResult.idTokenPayload.name)
     localStorage.setItem('state', authResult.state)
     localStorage.setItem('refreshToken', authResult.refreshToken)
     localStorage.setItem('sub', authResult.idTokenPayload.sub)
@@ -64,7 +65,7 @@ export default class AuthService {
     this.userProfile = null
     this.authNotifier.emit('authChange', false)
     // navigate to the home route
-    router.replace('logbook')
+    router.replace('/')
   }
 
   isAuthenticated () {

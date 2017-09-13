@@ -43,7 +43,7 @@ export default {
     login,
     logout,
     getUser () {
-      return localStorage.sub
+      return localStorage.name
     }
   }
 }

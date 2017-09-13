@@ -9,7 +9,10 @@
       </div>
       <div class="col s3">
         <span class="connections"></span>
-        <a class='dropdown-button btn' data-activates='dropdown1'>{{entry.header.username}}</a>
+        <a class='btn' @click="connectionsVisible = !connectionsVisible">{{entry.header.username}}</a>
+        <div style='background-color:grey;' v-if='connectionsVisible'>
+          These are the connections
+        </div>
         <ul id='dropdown1' class='dropdown-content'>
           <li><a href="#!">one</a></li>
           <li><a href="#!">two</a></li>
@@ -29,8 +32,6 @@
     </div>
 
     <p v-if="needsExpansion(entry)" class="expand" @click="active = !active">{{active ? "Contract" : "Expand"}}</p>
-
-
     <hr>
   </div>
 
@@ -58,6 +59,7 @@ export default {
   },
   data () {
     return {
+      connectionsVisible: false,
       active: false,
       id: Math.random()
     }
