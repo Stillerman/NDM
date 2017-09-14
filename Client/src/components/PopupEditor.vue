@@ -14,12 +14,8 @@
       <div class="input-field">
         <select v-model="topic" id="topic" class="browser-default">
           <option value="" disabled selected>Choose your topic</option>
-          <option v-for="topic in topics" value="topic.topic">{{topic.topic}}</option>
+          <option v-for="topic in topics" :value="topic.topic">{{topic.topic}}</option>
         </select>
-      </div>
-      <div class="input-field">
-        <input v-model="username" id="username" type="text"></input>
-        <label for="username">Username</label>
       </div>
       <div class="input-field">
         <textarea v-model='body' id="textarea1" class="materialize-textarea"></textarea>
@@ -64,7 +60,6 @@ export default {
       error: '',
       showError: false,
       topics: [],
-      username: '',
       topic: '',
       body: ``,
       preview: false
@@ -75,7 +70,7 @@ export default {
     submit () {
       console.log(this.shot, this.run)
       if (this.shot.length + this.run.length !== 0) {
-        eventHub.$emit('new entry', {topic: this.topic, body: this.body, username: this.username, run: this.run, shot: this.shot})
+        eventHub.$emit('new entry', {topic: this.topic, body: this.body, run: this.run, shot: this.shot})
       } else {
         this.displayError('Shot and Run cannot both be blank.')
       }
@@ -88,7 +83,8 @@ export default {
   mounted () {
     axios.get('http://localhost:8000/topics/', {
       headers: {
-        Authorization: 'Basic dGVzdGluZzpsZXRzdHJ5dGhpcw=='
+        Authorization: 'Basic dGVzdGluZzpsZXRzdHJ5dGhpcw==',
+        testAuth: 'Bearer ' + localStorage.access_token
       }
     })
     .then(response => { this.topics = response.data.results })

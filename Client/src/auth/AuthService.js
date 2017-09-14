@@ -49,6 +49,7 @@ export default class AuthService {
     localStorage.setItem('access_token', authResult.accessToken)
     localStorage.setItem('id_token', authResult.idToken)
     localStorage.setItem('name', authResult.idTokenPayload.name)
+    localStorage.setItem('nickname', authResult.idTokenPayload.nickname)
     localStorage.setItem('state', authResult.state)
     localStorage.setItem('refreshToken', authResult.refreshToken)
     localStorage.setItem('sub', authResult.idTokenPayload.sub)

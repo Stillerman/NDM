@@ -81,11 +81,11 @@ export default {
     PopupEditor
   },
   created () {
-    eventHub.$on('new entry', ({topic, username, body, run, shot}) => {
+    eventHub.$on('new entry', ({topic, body, run, shot}) => {
       this.editing = false
       let temp = {
         header: {
-          username,
+          username: localStorage.nickname,
           topic,
           entered: moment(),
           summary: body.substring(0, 135)
@@ -94,16 +94,15 @@ export default {
           text: body
         }
       }
-      console.log('run', run)
       axios.post('http://localhost:8000/entry/', {
         topic,
         text: body,
-        username,
+        username: localStorage.nickname,
         run
-
       }, {
         headers: {
-          Authorization: 'Basic dGVzdGluZzpsZXRzdHJ5dGhpcw=='
+          Authorization: 'Basic dGVzdGluZzpsZXRzdHJ5dGhpcw==',
+          testAuth: 'Bearer ' + localStorage.access_token
         }
       })
       .then(response => console.log(response))
