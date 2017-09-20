@@ -28,23 +28,28 @@ class User(models.Model):
     comment = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'Users'
 
 class Entry(models.Model):
     username = models.CharField(db_column='USERNAME', max_length=31, blank=True, null=True)  # Field name made lowercase.
-    entered = models.DateTimeField(db_column='ENTERED', blank=True, null=True)  # Field name made lowercase.
-    voided = models.DateTimeField(db_column='VOIDED', blank=True, null=True)  # Field name made lowercase.
+    entered = models.DateTimeField(db_column='ENTERED', auto_now_add=True)  # Field name made lowercase.
+    voided = models.DateTimeField(db_column='VOIDED', null=True)  # Field name made lowercase.
     run = models.IntegerField(db_column='RUN', blank=True, null=True)  # Field name made lowercase.
     shot = models.IntegerField(db_column='SHOT', blank=True, null=True)  # Field name made lowercase.
     topic = models.CharField(db_column='TOPIC', max_length=16)  # Field name made lowercase.
     text = models.TextField(db_column='TEXT', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    dbkey = models.IntegerField(db_column='DBKEY')  # Field name made lowercase.
+    dbkey = models.IntegerField(db_column='DBKEY',editable=False )  # Field name made lowercase.
     id = models.CharField(db_column='GUID', max_length=36, primary_key=True)  # Field name made lowercase.
     class Meta:
-        managed = False
         db_table = 'ENTRIES'
 
+    def _do_insert(self, manager, using, fields, update_pk, raw):
+        return super(Entry, self)._do_insert(manager, using,
+             [f for f in fields if f.attname not in ('id', 'dbkey')], update_pk, raw)
+
+    def _do_update(self, base_qs, using, pk_val, values, update_fields, forced_update):
+        return super(Entry, self)._do_update(base_qs, using, pk_val, 
+             [f for f in values if f[0].attname not in ('id', 'dbkey')], update_fields, forced_update)
 
 class EntryDisplayPref(models.Model):
     username = models.ForeignKey(User, db_column='username',related_name='edprefs')
@@ -65,7 +70,6 @@ class EntryDisplayPref(models.Model):
     id = models.CharField(db_column='GUID', max_length=36, primary_key=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
         db_table = 'ENTRY_DISPLAY_PREFS'
 
 
@@ -80,13 +84,13 @@ class EntryDisplayTemplate(models.Model):
     id = models.CharField(db_column='GUID', max_length=36, primary_key=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
         db_table = 'ENTRY_DISPLAY_TEMPLATES'
 
 
 class Miniproposal(models.Model):
+    guid = models.CharField(db_column='GUID', max_length=36, primary_key=True)  # Field name made lowercase.
     mp = models.IntegerField()
-    id = models.CharField(max_length=10, primary_key=True)
+    id = models.CharField(db_column='ID', max_length=10)
     date_filed = models.DateTimeField()
     title = models.CharField(max_length=100)
     username = models.ForeignKey(User, db_column='name',related_name='miniproposals')
@@ -103,10 +107,8 @@ class Miniproposal(models.Model):
     boronize_overnight = models.SmallIntegerField(blank=True, null=True)
     boronize_shots = models.SmallIntegerField(blank=True, null=True)
     comment = models.CharField(max_length=256, blank=True, null=True)
-    id = models.CharField(db_column='GUID', max_length=36, primary_key=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
         db_table = 'Miniproposals'
 
 
@@ -123,7 +125,6 @@ class Operator(models.Model):
     guid = models.CharField(db_column='GUID', max_length=36, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
         db_table = 'Operators'
 
 class Preference(models.Model):
@@ -134,7 +135,6 @@ class Preference(models.Model):
     id = models.CharField(db_column='GUID', max_length=36, primary_key=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
         db_table = 'PREFERENCES'
 
 
@@ -143,11 +143,10 @@ class Run(models.Model):
     entered = models.DateTimeField(db_column='ENTERED')  # Field name made lowercase.
     run = models.IntegerField(db_column='RUN')  # Field name made lowercase.
     brief = models.CharField(db_column='BRIEF', max_length=72, blank=True, null=True)  # Field name made lowercase.
-    dbkey = models.IntegerField(db_column='DBKEY')  # Field name made lowercase.
+#    dbkey = models.IntegerField(db_column='DBKEY')  # Field name made lowercase.
     id = models.CharField(db_column='GUID', max_length=36, primary_key=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
         db_table = 'RUNS'
 
 
@@ -169,12 +168,11 @@ class Shot(models.Model):
     init_time = models.FloatField(db_column='INIT_TIME', blank=True, null=True)  # Field name made lowercase.
     store_time = models.FloatField(db_column='STORE_TIME', blank=True, null=True)  # Field name made lowercase.
     analysis_time = models.FloatField(db_column='ANALYSIS_TIME', blank=True, null=True)  # Field name made lowercase.
-    dbkey = models.IntegerField(db_column='DBKEY')  # Field name made lowercase.
+#    dbkey = models.IntegerField(db_column='DBKEY')  # Field name made lowercase.
     nodata = models.NullBooleanField(db_column='NODATA')  # Field name made lowercase.
     id = models.CharField(db_column='GUID', max_length=36, primary_key=True)  # Field name made loweriase.
 
     class Meta:
-        managed = False
         db_table = 'SHOTS'
 
 
@@ -183,11 +181,10 @@ class Topic(models.Model):
     entered = models.DateTimeField(db_column='ENTERED', blank=True, null=True)  # Field name made lowercase.
     topic = models.CharField(db_column='TOPIC', max_length=16)  # Field name made lowercase.
     brief = models.CharField(db_column='BRIEF', max_length=72)  # Field name made lowercase.
-    dbkey = models.IntegerField(db_column='DBKEY')  # Field name made lowercase.
+#    dbkey = models.IntegerField(db_column='DBKEY')  # Field name made lowercase.
     sort_order = models.IntegerField(db_column='SORT_ORDER', blank=True, null=True)  # Field name made lowercase.
     id = models.CharField(db_column='GUID', max_length=36, primary_key=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
         db_table = 'TOPICS'
 

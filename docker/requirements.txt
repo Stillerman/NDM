@@ -16,3 +16,4 @@ six>=1.10.0
 typing>=3.6.1
 uwsgi
 django-cors-headers
+django-debug-toolbar

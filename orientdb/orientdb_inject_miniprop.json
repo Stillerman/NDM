@@ -1,0 +1,25 @@
+{
+  "source": { "file": { "path": "/orientdb/local/miniprop.csv" } },
+    "extractor": { "csv": {"columns":["mp","id:string","date_filed:date","title","url","status","fullname","firstname","lastname","file_date:string"]} },
+  "transformers": [
+      { "vertex": { "class": "Miniprop" } },
+      { "edge": { "class": "HasAuthor",  "joinFieldName": "fullname", "lookup": "User.fullname" } }
+  ],
+  "loader": {
+    "orientdb": {
+       "dbURL": "remote:172.17.0.1/databases/ndm_db",
+	"dbUser": "admin",
+	"dbPassword": "admin",
+	"serverUser": "root",
+	"serverPassword": "ankmyx",
+       "dbType": "graph",
+       "classes": [
+            {"name": "User", "extends": "V"},
+            {"name": "Miniprop",   "extends":"V"},
+            {"name": "HasAuthor", "extends":"E"}
+       ], "indexes": [
+           {"class":"Miniprop", "fields":["mp:integer"] , "type":"UNIQUE" }
+       ]
+    }
+  }
+}
