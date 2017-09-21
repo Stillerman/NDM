@@ -1,11 +1,13 @@
 # OrientDB setup and use instructions
 
-TLDR;
+**TLDR;**
+
 If you have orientdb installed and running, untar local.tar and use
 the `ndm_orientdb_backup.zip` file to restore the database backup in
-the orientdb console.
+the orientdb console. Equivalently, mounting the local/ directories from local.tar
+in the container give you a full install of the database as well.
 
-TLDR;
+**TLDR;**
 
 
 OrientDB may be installed as a binary, from source or as a docker
@@ -153,7 +155,9 @@ This can be visualized in the Studio by running the query directlly,
 using the expand function on the returned records and adding useful
 labels in the graph tab:
 
-`SELECT expand(out) from (match {class:User ,as:U} <-HasAuthor- {class:Miniprop, as:M} <-HasMP- {class:Run, as:R} return U,M,R )  WHERE M.in('hasMP').size()>1`
+`Select from  (TRAVERSE out(`HasAuthor`) from  (select from Miniprop where in(`HasMP`).size() > 1)) `
+
+(currently, MATCH selections do not return data formatted correctly for the graph editor)
 
 ![two users graph](users_with_mp_in_two_runs.png)
 .
