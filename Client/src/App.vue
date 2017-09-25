@@ -3,7 +3,7 @@
     <div class="topFixed">
       <button class="btn btn-primary btn-margin login" v-if="!authenticated" @click="login()">Log In</button>
       <button class="btn btn-primary btn-margin login" v-if="authenticated" @click="logout()">Log Out</button>
-      <p v-if="authenticated">Welcome, {{getUser()}}</p>
+      <p>{{getHeadingMessage()}}</p>
     </div>
     <img class="resize" src="./assets/logo.png">
     <router-view :auth="auth" :authenticated="authenticated"></router-view>
@@ -36,6 +36,13 @@ export default {
     getUser () {
       let nameParts = localStorage.name.split(',')
       return nameParts[1].substring(0, nameParts[1].length - 2)
+    },
+    getHeadingMessage () {
+      if (this.authenticated) {
+        return 'Welcome, ' + this.getUser()
+      } else {
+        return 'Browsing as a guest'
+      }
     }
   }
 }
