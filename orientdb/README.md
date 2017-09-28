@@ -94,7 +94,8 @@ relations represented by edges in OrientDB: HasAuthor and HasMP.
 Now we can execute some queries. Let's define a query that finds all
 authors who wrote miniproposals that were used in more than one run.
 
-``` create function twousers
+``` 
+create function twousers
 "SELECT R.run,U.name,M.mp from (
 MATCH
 {class:User ,as:U} <-HasAuthor- {class:Miniprop, as:M} <-HasMP-{class:Run, as:R}
@@ -102,7 +103,7 @@ return U,M,R
  )
 WHERE 
 M.in('hasMP').size()>1;" 
-idempotent true LANGUAGE SQL`
+idempotent true LANGUAGE SQL
 ```
 
 We can execute this in the console or Studio with `SELECT
