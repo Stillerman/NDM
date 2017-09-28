@@ -1,0 +1,27 @@
+{
+  "source": { "file": { "path": "/orientdb/local/shots.xml" } },
+    "extractor": { "xml":
+		   { "rootNode": "shots.newlogbook_dbo_shot" }, "columns":["shot:integer"] },
+  "transformers": [
+      { "vertex": { "class": "Shots" } }
+  ],
+  "loader": {
+    "orientdb": {
+       "dbURL": "remote:172.17.0.2/databases/ndm_db",
+	"dbUser": "admin",
+	"dbPassword": "admin",
+	"serverUser": "root",
+	"serverPassword": "ankmyx",
+       "dbType": "graph",
+       "classes": [
+           {"name": "Run", "extends": "V"},
+	   {"name": "User", "extends": "V"},
+           {"name": "Miniprop",   "extends":"V"},
+           {"name": "Shots",   "extends":"V"},
+           {"name": "HasAuthor", "extends":"E"}
+       ], "indexes": [
+           {"class":"Shot", "fields":["shot:integer"]  , "type":"UNIQUE"  }
+       ]
+    }
+  }
+}

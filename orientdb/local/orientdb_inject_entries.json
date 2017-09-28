@@ -1,0 +1,33 @@
+{ "source": 
+  { "file": 
+    { "path": "/orientdb/local/cat.xml" } 
+  }, "extractor" : 
+    { "xml": 
+      { "rootNode": "doc.entries", 
+        "tagsAsAttribute": ["doc.entries"] 
+      } 
+    },
+    "transformers": [
+    { "vertex": { "class": "Entry" } },
+    { "edge":   { "class": "HasRun",  "joinFieldName": "RUN", "lookup": "Run.run" } } ],
+  "loader":{
+    "orientdb": {
+       "dbURL": "remote:172.17.0.1/databases/ndm_db",
+    "dbUser": "admin",
+    "dbPassword": "admin",
+    "serverUser": "root",
+    "serverPassword": "ankmyx",
+       "dbType": "graph",
+       "classes": [
+           {"name": "Run", "extends": "V"},
+       {"name": "User", "extends": "V"},
+           {"name": "Miniprop",   "extends":"V"},
+       {"name": "Shots",   "extends":"V"},
+           {"name": "Entry",   "extends":"V"},       
+           {"name": "HasAuthor", "extends":"E"},
+           {"name": "HasRun", "extends":"E"}       
+       ]
+    }
+  }
+}
+
