@@ -108,7 +108,7 @@ idempotent true LANGUAGE SQL`
 We can execute this in the console or Studio with `SELECT
 twousers()`. Because OrientDB has an HTTP API, we can fetch this with
 curl:
-`curl  http://localhost:2480/function/ndm_db/twousers --user root:ankmyx -H 'Accept:application/json' | python -m json.tool`
+`curl  http://localhost:2480/function/ndm_db/twousers --user admin:admin -H 'Accept:application/json' | python -m json.tool`
 
 Results:
 
