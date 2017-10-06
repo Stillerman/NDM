@@ -83,6 +83,9 @@ docker run  --rm -it -v $PWD:/orientdb/local orientdb:latest /orientdb/bin/oetl.
 docker run  --rm -it -v $PWD:/orientdb/local orientdb:latest /orientdb/bin/oetl.sh /orientdb/local/orientdb_inject_miniprop.json
 docker run  --rm -it -v $PWD:/orientdb/local orientdb:latest /orientdb/bin/oetl.sh /orientdb/local/orientdb_inject_run.json
 docker run  --rm -it -v $PWD:/orientdb/local orientdb:latest /orientdb/bin/oetl.sh /orientdb/local/orientdb_inject_runlist.json
+docker run  --rm -it -v $PWD/orientdb/local:/orientdb/local orientdb:latest /orientdb/bin/oetl.sh /orientdb/local/orientdb_inject_shots.json
+docker run  --rm -it -v $PWD/orientdb/local:/orientdb/local orientdb:latest /orientdb/bin/oetl.sh  /orientdb/local/orientdb_inject_entries.json
+
 ```
 
 In the BROWSE tab of the Studio or in a console, run
@@ -163,4 +166,14 @@ labels in the graph tab:
 ![two users graph](users_with_mp_in_two_runs.png)
 .
 
+Runs with entries:
+`match {class:Run, as:R} <-HasRun- {class:Entry, as:E} return R.run`
+
+Returns the list:
+```
+1150722
+1160929
+1160830
+1160831
+```
 
