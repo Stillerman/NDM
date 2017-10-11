@@ -2,10 +2,13 @@
 
 **TLDR;**
 
-If you have orientdb installed and running, untar local.tar and use
-the `ndm_orientdb_backup.zip` file to restore the database backup in
-the orientdb console. Equivalently, mounting the local/ directories from local.tar
-in the container give you a full install of the database as well.
+If you have orientdb installed and running use
+the `local/ndm_orientdb_backup.zip` file to restore the database backup in
+the orientdb console. 
+
+```
+console> restore database local/ndm_orientdb_backup
+```
 
 **TLDR;**
 
@@ -16,10 +19,10 @@ https://www.linuxbabe.com/linux-server/install-docker-on-debian-8-jessie-server)
 (Docker requires a linux kernel, but there are [installers](https://docs.docker.com/engine/installation/) for Windows
 and OSX that embed their own kernel)
 
-Begin by creating a local areas for peristent storage. Using files in
-in the git distribution in `orientdb/`.
+Begin by creating a local areas for peristent storage. 
+The `local` directory is provided in the git repo.
 
-    tar xf orientdb_cfg.tar local.tar
+    mkdir config databases backup
 
 To start the orientdb server, we run the docker image from the
 orientdb repo, opening ports

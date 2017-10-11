@@ -1,4 +1,5 @@
-﻿<doc>
+<?xml version="1.0" encoding="UTF-8"?>
+<doc>
   <entries>
     <USERNAME>labombard</USERNAME>
     <ENTERED>2015-07-21T15:41:07.173</ENTERED>
@@ -7626,10 +7627,10 @@ Boronization:  Be preared for between shots boronization
 
 Overnight ECDC (yes/no): yes, in helium as much as possible
 
-ICRF(yes/no): 		yes
-LH(yes/no): 		yes 
-Cryopump (yes/no): 	yes, on first shot
-DNB (yes/no): 		no 
+ICRF(yes/no):         yes
+LH(yes/no):         yes 
+Cryopump (yes/no):     yes, on first shot
+DNB (yes/no):         no 
 
 Vessel temperature: 35/35/35 
 
@@ -11073,10 +11074,10 @@ Boronization:  Be preared for between shots boronization
 
 Overnight ECDC (yes/no): yes, in helium as much as possible
 
-ICRF(yes/no): 		yes
-LH(yes/no): 		yes 
-Cryopump (yes/no): 	yes, on first shot
-DNB (yes/no): 		no 
+ICRF(yes/no):         yes
+LH(yes/no):         yes 
+Cryopump (yes/no):     yes, on first shot
+DNB (yes/no):         no 
 
 Vessel temperature: 35/35/35 
 
@@ -12211,37 +12212,37 @@ Total energy:  1.06 MJ
 
 shot            H98     Wtot    Teo    Te_ped    comment
 
-1160831001	1.56	138	6.3	0	Reload 1160830024, add Ninja                   
+1160831001    1.56    138    6.3    0    Reload 1160830024, add Ninja                   
                                                 N2 puff. late Hmode @0.90
 
-1160831002	1.64	147	5.7	1.4	Repeat w/o argon puff.   
+1160831002    1.64    147    5.7    1.4    Repeat w/o argon puff.   
                                                 slightly better, 2 Hmodes,  
                                                 @0.76
-1160831003	1.57	151	5.8	0	Change timing Ninja
+1160831003    1.57    151    5.8    0    Change timing Ninja
 
-1160831004	1.59	158	6	0	Change timing Ninja.  1st 
+1160831004    1.59    158    6    0    Change timing Ninja.  1st 
                                                 Hmode is identical to shot   
                                                 3.  
 
-1160831006	1.48	150	5.5	1.3	About same as shot 4.  RXL 
+1160831006    1.48    150    5.5    1.3    About same as shot 4.  RXL 
                                                 change does not solve Prad
 
-1160831007	0.93	76	3.5	0.3	Load seg 3 from 1160809014.   
+1160831007    0.93    76    3.5    0.3    Load seg 3 from 1160809014.   
                                                 stays in I or L mode.
 
-1160831008	0.86	74	4.2	0.3	Change rxl again.  result:  
+1160831008    0.86    74    4.2    0.3    Change rxl again.  result:  
                                                 another I or L mode.
 
-1160831009	1.52	146	5.3	0	Reload shot 4.  ask for N2 
+1160831009    1.52    146    5.3    0    Reload shot 4.  ask for N2 
                                                 puff but didnâ??t get it.
 
-1160831010	1.54	149	5.9	1.5	Ask for N2 puff but still     
+1160831010    1.54    149    5.9    1.5    Ask for N2 puff but still     
                                                 didnâ??t get it.
 
-1160831011	1.49	143	5.8	0	If we have an N2 puff, it is 
+1160831011    1.49    143    5.8    0    If we have an N2 puff, it is 
                                                 tiny.
 
-1160831012	1.61	154	5.9	1.5	Quadruple N2 puff.  Drops 
+1160831012    1.61    154    5.9    1.5    Quadruple N2 puff.  Drops 
                                                 moly, but same Prad 
            
 
@@ -18049,12 +18050,12 @@ modulation in the following condition.
 Ne Scan from 0.7 s to  1.5s
 LH pulse from 0.6s to 1.5s  (Modulation 50ms/50ms)
 
-1)	Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.6)
-2)	Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.9)
-3)	Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.9)
-4)	Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.9) (this will cover Baek's request)
+1)    Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.6)
+2)    Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.9)
+3)    Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.9)
+4)    Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.9) (this will cover Baek's request)
 5)     Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.6)
-6)	Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.6)
+6)    Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.6)
 
 Note: If good inaccessible data was obtained in one of low n// cases, others can 
 be skipped.</TEXT>
@@ -18479,14 +18480,14 @@ Reference shot 1140822024 (or 1140822011)
 Shot schedule: 
 
 Take the same measurement of devertor heat flux fast time resolution data due to LH power modulation in the following condition. 
-1)	Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.6)
-2)	Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.9)
-3)	Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.6)
-4)	Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.9)
+1)    Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.6)
+2)    Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.9)
+3)    Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.6)
+4)    Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.9)
 
 If time permits.
-5)	Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.6)
-6)	Plasma current 50kA, density scan from ne04  0.5-0.9 (n// = 1.9)
+5)    Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.6)
+6)    Plasma current 50kA, density scan from ne04  0.5-0.9 (n// = 1.9)
 </TEXT>
     <DBKEY>501435</DBKEY>
     <GUID>F5BD5D1E-D851-E711-ABE8-0050568A3DF0</GUID>
@@ -18511,12 +18512,12 @@ Reference shot 1140822024 (or 1140822011)
 Shot schedule: 
 
 Take the same measurement of devertor heat flux fast time resolution data due to LH power modulation in the following condition. 
-1)	Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.6)
-2)	Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.9)
-3)	Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.6)
-4)	Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.9)
-5)	Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.6)
-6)	Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.9)
+1)    Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.6)
+2)    Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.9)
+3)    Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.6)
+4)    Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.9)
+5)    Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.6)
+6)    Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.9)
 </TEXT>
     <DBKEY>501436</DBKEY>
     <GUID>FDBD5D1E-D851-E711-ABE8-0050568A3DF0</GUID>
@@ -18541,12 +18542,12 @@ Reference shot 1140822024 (or 1140822011)
 Shot schedule: 
 
 Take the same measurement of devertor heat flux fast time resolution data due to LH power modulation in the following condition. 
-1)	Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.6)
-2)	Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.9)
-3)	Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.6)
-4)	Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.9)
-5)	Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.6)
-6)	Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.9)
+1)    Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.6)
+2)    Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.9)
+3)    Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.6)
+4)    Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.9)
+5)    Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.6)
+6)    Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.9)
 
 Note: If good inaccessible data was obtained in one of low n// cases, others can 
 be skipped.
@@ -18576,12 +18577,12 @@ Reference shot 1140822024 (or 1140822011)
 Shot schedule: 
 
 Take the same measurement of devertor heat flux fast time resolution data due to LH power modulation in the following condition. 
-1)	Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.6)
-2)	Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.9)
-3)	Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.6)
-4)	Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.9)
-5)	Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.6)
-6)	Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.9)
+1)    Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.6)
+2)    Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.9)
+3)    Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.6)
+4)    Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.9)
+5)    Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.6)
+6)    Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.9)
 
 Note: If good inaccessible data was obtained in one of low n// cases, others can 
 be skipped.</TEXT>
@@ -18871,12 +18872,12 @@ Shot schedule:
 
 Take the same measurement of devertor heat flux fast time resolution data due to LH power 
 modulation in the following condition. 
-1)	Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.6)
-2)	Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.9)
-3)	Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.9)
-4)	Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.9)
+1)    Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.6)
+2)    Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.9)
+3)    Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.9)
+4)    Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.9)
 5)     Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.6)
-6)	Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.6)
+6)    Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.6)
 
 Note: If good inaccessible data was obtained in one of low n// cases, others can 
 be skipped.</TEXT>
@@ -19811,12 +19812,12 @@ modulation in the following condition.
 Ne Scan from 0.7 s to  1.5s
 LH pulse from 0.6s to 1.5s  (Modulation 50ms/50ms)
 
-1)	Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.6)
-2)	Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.9)
-3)	Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.9)
-4)	Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.9)
+1)    Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.6)
+2)    Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.9)
+3)    Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.9)
+4)    Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.9)
 5)     Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.6)
-6)	Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.6)
+6)    Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.6)
 
 Note: If good inaccessible data was obtained in one of low n// cases, others can 
 be skipped.</TEXT>
@@ -19846,12 +19847,12 @@ Shot schedule:
 
 Take the same measurement of devertor heat flux fast time resolution data due to LH power 
 modulation in the following condition. 
-1)	Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.6)
-2)	Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.9)
-3)	Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.9)
-4)	Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.9) (&lt;- this will cover Baek's request)
+1)    Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.6)
+2)    Plasma current 550kA, density scan from ne04  0.5-0.9 (n// = 1.9)
+3)    Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.9)
+4)    Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.9) (&lt;- this will cover Baek's request)
 5)     Plasma current 800kA, density scan from ne04  0.5-0.9 (n// = 1.6)
-6)	Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.6) (&lt;- this will cover Baek's request)
+6)    Plasma current 1200kA, density scan from ne04  0.5-0.9 (n// = 1.6) (&lt;- this will cover Baek's request)
 
 Note: If good inaccessible data was obtained in one of low n// cases, others can 
 be skipped.</TEXT>
@@ -19912,12 +19913,12 @@ modulation in the following condition.
 Ne scan 0.4 - 0.8 (from 0.7s to 1.5s)
 LH from 0.6ms to 1.5s (50ms/50ms modulation 600kW/100kW)
 
-1)	Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.6)
-2)	Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.9)
-3)	Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.9)
-4)	Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.9) (this will cover Baek's request)
+1)    Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.6)
+2)    Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.9)
+3)    Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.9)
+4)    Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.9) (this will cover Baek's request)
 5)     Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.6)
-6)	Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.6)
+6)    Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.6)
 
 Note: If good inaccessible data was obtained in one of low n// cases, others can 
 be skipped.</TEXT>
@@ -19951,12 +19952,12 @@ modulation in the following condition.
 Ne Scan from 0.7 s to  1.5s
 LH pulse from 0.6s to 1.5s  (Modulation 50ms/50ms)
 
-1)	Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.6)
-2)	Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.9)
-3)	Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.9)
-4)	Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.9) (this will cover Baek's request)
+1)    Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.6)
+2)    Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.9)
+3)    Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.9)
+4)    Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.9) (this will cover Baek's request)
 5)     Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.6)
-6)	Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.6)
+6)    Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.6)
 
 Note: If good inaccessible data was obtained in one of low n// cases, others can 
 be skipped.</TEXT>
@@ -19990,12 +19991,12 @@ modulation in the following condition.
 Ne Scan from 0.7 s to  1.5s
 LH pulse from 0.6s to 1.5s  (Modulation 50ms/50ms)
 
-1)	Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.6)
-2)	Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.9)
-3)	Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.9)
-4)	Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.9) (this will cover Baek's request)
+1)    Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.6)
+2)    Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.9)
+3)    Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.9)
+4)    Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.9) (this will cover Baek's request)
 5)     Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.6)
-6)	Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.6)
+6)    Plasma current 1200kA, density scan from ne04  0.4-0.8 (n// = 1.6)
 
 Note: If good inaccessible data was obtained in one of low n// cases, others can 
 be skipped.</TEXT>
@@ -20198,12 +20199,12 @@ modulation in the following condition.
 Ne Scan from 0.6 s to  1.4s
 LH pulse from 0.5s to 1.5s  (Modulation 50ms/50ms)
 
-1)	Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.6)
-2)	Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.9)
-3)	Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.9)
-4)	Plasma current 1200kA, density scan from ne04  0.55-0.8 (n// = 1.9) (this will cover Baek's request)
+1)    Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.6)
+2)    Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.9)
+3)    Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.9)
+4)    Plasma current 1200kA, density scan from ne04  0.55-0.8 (n// = 1.9) (this will cover Baek's request)
 5)     Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.6)
-6)	Plasma current 1200kA, density scan from ne04  0.55-0.8 (n// = 1.6)
+6)    Plasma current 1200kA, density scan from ne04  0.55-0.8 (n// = 1.6)
 
 Note: If good inaccessible data was obtained in one of low n// cases, others can 
 be skipped.</TEXT>
@@ -21021,12 +21022,12 @@ modulation in the following condition.
 Ne Scan from 0.6 s to  1.4s
 LH pulse from 0.5s to 1.5s  (Modulation 50ms/50ms)
 
-1)	Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.6)
-2)	Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.9)
-3)	Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.9)
-4)	Plasma current 1200kA, density scan from ne04  0.55-0.8 (n// = 1.9) (this will cover Baek's request)
+1)    Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.6)
+2)    Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.9)
+3)    Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.9)
+4)    Plasma current 1200kA, density scan from ne04  0.55-0.8 (n// = 1.9) (this will cover Baek's request)
 5)     Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.6)
-6)	Plasma current 1200kA, density scan from ne04  0.55-0.8 (n// = 1.6)
+6)    Plasma current 1200kA, density scan from ne04  0.55-0.8 (n// = 1.6)
 
 Note: If good inaccessible data was obtained in one of low n// cases, others can 
 be skipped.</TEXT>
@@ -21138,12 +21139,12 @@ modulation in the following condition.
 Ne Scan from 0.7 s to  1.5s
 LH pulse from 0.6s to 1.5s  (Modulation 50ms/50ms)
 
-1)	Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.6)
-2)	Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.9)
-3)	Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.9)
-4)	Plasma current 1200kA, density scan from ne04  0.55-0.8 (n// = 1.9) (this will cover Baek's request)
+1)    Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.6)
+2)    Plasma current 550kA, density scan from ne04  0.4-0.8 (n// = 1.9)
+3)    Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.9)
+4)    Plasma current 1200kA, density scan from ne04  0.55-0.8 (n// = 1.9) (this will cover Baek's request)
 5)     Plasma current 800kA, density scan from ne04  0.4-0.8 (n// = 1.6)
-6)	Plasma current 1200kA, density scan from ne04  0.55-0.8 (n// = 1.6)
+6)    Plasma current 1200kA, density scan from ne04  0.55-0.8 (n// = 1.6)
 
 Note: If good inaccessible data was obtained in one of low n// cases, others can 
 be skipped.</TEXT>
@@ -35966,5 +35967,7 @@ photo by Jim Irby</TEXT>
 photo by Jim Irby</TEXT>
     <DBKEY>502737</DBKEY>
     <GUID>EB36601E-D851-E711-ABE8-0050568A3DF0</GUID>
-  </entries>
+ </entries>
+
 </doc>
+
