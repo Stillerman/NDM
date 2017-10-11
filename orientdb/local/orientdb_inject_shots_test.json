@@ -1,0 +1,5 @@
+{
+    "source": { "file": { "path": "/orientdb/local/shots.xml" } },
+    "extractor": { "xml": { } },
+    "loader": { "test": {} }
+}

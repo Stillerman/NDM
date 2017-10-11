@@ -1,0 +1,19 @@
+{
+  "loader": {
+    "orientdb": {
+      "dbURL": "remote:172.17.0.1/databases/ndm_db",
+      "dbUser": "admin",
+	"dbPassword": "admin",
+	"serverUser": "root",
+	"serverPassword": "ankmyx",
+       "dbType": "graph",
+       "classes": [
+           {"name": "User", "extends": "V"},	    
+           {"name": "Miniprop",   "extends":"V"},
+            {"name": "AUTHOREDby", "extends":"E"}
+       ], "indexes": [
+           {"class":"User", "fields":["name:string"] , "type":"UNIQUE" }
+       ]
+    }
+  }
+}
