@@ -1,6 +1,6 @@
 { "source": 
   { "file": 
-    { "path": "/orientdb/local/cat.xml" } 
+    { "path": "/orientdb/local/entries.xml" } 
   }, "extractor" : 
     { "xml": 
       { "rootNode": "doc.entries", 
