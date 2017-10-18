@@ -15,7 +15,7 @@
     </div>
     <div v-else class="input-field col s10">
           <i class="material-icons prefix">search</i>
-          <input id="icon_prefix" type="text" class="validate">
+          <input v-model="search" id="icon_prefix" type="text" class="validate">
           <label for="icon_prefix">Search</label>
     </div>
           </div>
@@ -113,6 +113,11 @@ export default {
       .then(response => console.log(response))
       .then(() => this.entries.push(temp))
     })
+
+    eventHub.$on('new constraint', (field, val) => {
+      console.log('new constraint added')
+      this.search += ':' + field + '=' + val + ' '
+    })
   },
 
   methods: {
@@ -131,7 +136,8 @@ export default {
       editing: false,
       run: 1090909,
       shot: 0,
-      showSettings: false
+      showSettings: false,
+      search: ''
     }
   }
 }
