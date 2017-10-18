@@ -80,6 +80,11 @@ export default {
     LogBookRow,
     PopupEditor
   },
+  watch: {
+    '$route' (to, from) {
+      // react to route changes...
+    }
+  },
   created () {
     eventHub.$on('new entry', ({topic, body, run, shot}) => {
       this.editing = false
