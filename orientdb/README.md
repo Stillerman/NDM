@@ -1,11 +1,16 @@
 # OrientDB setup and use instructions
 
-TLDR;
-If you have orientdb installed and running, untar local.tar and use
-the `ndm_orientdb_backup.zip` file to restore the database backup in
-the orientdb console.
+**TLDR;**
 
-TLDR;
+If you have orientdb installed and running use
+the `local/ndm_orientdb_backup.zip` file to restore the database backup in
+the orientdb console. 
+
+```
+console> restore database local/ndm_orientdb_backup
+```
+
+**TLDR;**
 
 
 OrientDB may be installed as a binary, from source or as a docker
@@ -14,10 +19,10 @@ https://www.linuxbabe.com/linux-server/install-docker-on-debian-8-jessie-server)
 (Docker requires a linux kernel, but there are [installers](https://docs.docker.com/engine/installation/) for Windows
 and OSX that embed their own kernel)
 
-Begin by creating a local areas for peristent storage. Using files in
-in the git distribution in `orientdb/`.
+Begin by creating a local areas for peristent storage. 
+The `local` directory is provided in the git repo.
 
-    tar xf orientdb_cfg.tar local.tar
+    mkdir databases backup
 
 To start the orientdb server, we run the docker image from the
 orientdb repo, opening ports
@@ -81,6 +86,9 @@ docker run  --rm -it -v $PWD:/orientdb/local orientdb:latest /orientdb/bin/oetl.
 docker run  --rm -it -v $PWD:/orientdb/local orientdb:latest /orientdb/bin/oetl.sh /orientdb/local/orientdb_inject_miniprop.json
 docker run  --rm -it -v $PWD:/orientdb/local orientdb:latest /orientdb/bin/oetl.sh /orientdb/local/orientdb_inject_run.json
 docker run  --rm -it -v $PWD:/orientdb/local orientdb:latest /orientdb/bin/oetl.sh /orientdb/local/orientdb_inject_runlist.json
+docker run  --rm -it -v $PWD:/orientdb/local orientdb:latest /orientdb/bin/oetl.sh /orientdb/local/orientdb_inject_shots.json
+docker run  --rm -it -v $PWD:/orientdb/local orientdb:latest /orientdb/bin/oetl.sh /orientdb/local/orientdb_inject_entries.json
+
 ```
 
 In the BROWSE tab of the Studio or in a console, run
@@ -92,7 +100,8 @@ relations represented by edges in OrientDB: HasAuthor and HasMP.
 Now we can execute some queries. Let's define a query that finds all
 authors who wrote miniproposals that were used in more than one run.
 
-``` create function twousers
+``` 
+create function twousers
 "SELECT R.run,U.name,M.mp from (
 MATCH
 {class:User ,as:U} <-HasAuthor- {class:Miniprop, as:M} <-HasMP-{class:Run, as:R}
@@ -100,13 +109,13 @@ return U,M,R
  )
 WHERE 
 M.in('hasMP').size()>1;" 
-idempotent true LANGUAGE SQL`
+idempotent true LANGUAGE SQL
 ```
 
 We can execute this in the console or Studio with `SELECT
 twousers()`. Because OrientDB has an HTTP API, we can fetch this with
 curl:
-`curl  http://localhost:2480/function/ndm_db/twousers --user root:ankmyx -H 'Accept:application/json' | python -m json.tool`
+`curl  http://localhost:2480/function/ndm_db/twousers --user admin:admin -H 'Accept:application/json' | python -m json.tool`
 
 Results:
 
@@ -153,9 +162,21 @@ This can be visualized in the Studio by running the query directlly,
 using the expand function on the returned records and adding useful
 labels in the graph tab:
 
-`SELECT expand(out) from (match {class:User ,as:U} <-HasAuthor- {class:Miniprop, as:M} <-HasMP- {class:Run, as:R} return U,M,R )  WHERE M.in('hasMP').size()>1`
+`Select from  (TRAVERSE out(`HasAuthor`) from  (select from Miniprop where in(`HasMP`).size() > 1)) `
+
+(currently, MATCH selections do not return data formatted correctly for the graph editor)
 
 ![two users graph](users_with_mp_in_two_runs.png)
 .
 
+Runs with entries:
+`match {class:Run, as:R} <-HasRun- {class:Entry, as:E} return R.run`
+
+Returns the list:
+```
+1150722
+1160929
+1160830
+1160831
+```
 

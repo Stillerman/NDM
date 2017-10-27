@@ -10,17 +10,12 @@
       <div class="col s3">
         <span class="connections"></span>
         <a class='btn' @click="connectionsVisible = !connectionsVisible">{{entry.header.username}}</a>
-        <div style='background-color:grey;' v-if='connectionsVisible'>
-          These are the connections
+        <div class="connectionsBlob" v-if='connectionsVisible'>
+          <a :href="('/user/' + entry.header.username + '/entries')" @click.prevent="addSearchConstraint('author', entry.header.username)">Other Entries</a>
+          <br>
+          <a :href="('/user/' + entry.header.username + '/miniproposals')" @click.prevent="addSearchConstraint('author', entry.header.username);addSearchConstraint('type', 'miniproposal')">Other Miniproposals</a>
         </div>
-        <ul id='dropdown1' class='dropdown-content'>
-          <li><a href="#!">one</a></li>
-          <li><a href="#!">two</a></li>
-          <li class="divider"></li>
-          <li><a href="#!">three</a></li>
-          <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
-          <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
-        </ul>
+
       </div>
       <div class="col s3">
         {{entry.header.entered | date}}
@@ -39,6 +34,7 @@
 
 <script>
 import moment from 'moment'
+import eventHub from '@/EventHub.js'
 
 export default {
   filters: {
@@ -55,7 +51,9 @@ export default {
     isActive: entry => entry.active || false,
     activate: entry => { entry.active = true },
     toggle: entry => { entry.active = !(entry.active || false) },
-    needsExpansion: entry => entry.body.text.length !== entry.header.summary.length
+    needsExpansion: entry => entry.body.text.length !== entry.header.summary.length,
+    getPageOffset: () => window.pageYOffset,
+    addSearchConstraint: (field, val) => eventHub.$emit('new constraint', field, val)
   },
   data () {
     return {
@@ -84,6 +82,16 @@ export default {
 
 .bold {
   font-weight: bold;
+}
+
+.connectionsBlob {
+  position: absolute;
+  background-color: #dddddd;
+  padding: 10px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  margin-left: 5px;
 }
 
 span.connections {

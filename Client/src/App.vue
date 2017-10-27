@@ -1,19 +1,10 @@
 <template>
   <div id="app">
-    <button class="btn btn-primary btn-margin login"
-      v-if="!authenticated"
-      @click="login()">
-        Log In
-    </button>
-
-
-    <p v-if="authenticated">{{getUser()}}</p>
-    <button
-      class="btn btn-primary btn-margin login"
-      v-if="authenticated"
-      @click="logout()">
-        Log Out
-    </button>
+    <div class="topFixed">
+      <button class="btn btn-primary btn-margin login" v-if="!authenticated" @click="login()">Log In</button>
+      <button class="btn btn-primary btn-margin login" v-if="authenticated" @click="logout()">Log Out</button>
+      <p>{{getHeadingMessage()}}</p>
+    </div>
     <img class="resize" src="./assets/logo.png">
     <router-view :auth="auth" :authenticated="authenticated"></router-view>
   </div>
@@ -43,7 +34,15 @@ export default {
     login,
     logout,
     getUser () {
-      return localStorage.name
+      let nameParts = localStorage.name.split(',')
+      return nameParts[1].substring(0, nameParts[1].length - 2)
+    },
+    getHeadingMessage () {
+      if (this.authenticated) {
+        return 'Welcome, ' + this.getUser()
+      } else {
+        return 'Browsing as a guest'
+      }
     }
   }
 }
@@ -59,9 +58,29 @@ export default {
   margin-top: 60px;
 }
 
+.topFixed {
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #dddddd;
+  width:100%;
+  text-align: left;
+  border-bottom-width: thin;
+  border-bottom-color: black;
+}
+
+.btn {
+  margin: 5px;
+}
+
+.topFixed p {
+  margin-left: 25px;
+}
+
 img.resize {
-    width:340px;
-    height: auto;
+  width:340px;
+  height: auto;
 }
 
 .login {

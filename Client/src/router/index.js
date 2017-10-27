@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Logbook from '@/components/Logbook'
 import Callback from '@/components/Callback'
 import Web from '@/components/Web'
+import User from '@/components/User'
 
 Vue.use(Router)
 
@@ -23,6 +24,9 @@ export default new Router({
       path: '/web',
       name: 'Web',
       component: Web
+    },
+    {
+      path: '/user/:nickname', component: User
     }
   ]
 })
