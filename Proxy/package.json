@@ -5,7 +5,9 @@
   "main": "index.js",
   "dependencies": {
     "http-proxy": "^1.16.2",
-    "node-http-proxy": "^0.2.3"
+    "node-http-proxy": "^0.2.3",
+    "request": "^2.83.0",
+    "sqlite3": "^3.1.8"
   },
   "devDependencies": {},
   "scripts": {
