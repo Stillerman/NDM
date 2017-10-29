@@ -39,6 +39,8 @@ let db = new sqlite3.Database('./db/user.db', (err) => {
 //   use this username and password
 //
 proxy.on('proxyReq', function(proxyReq, req, res, options) {
+    var username;
+    var password;
     if ('authorization' in req.headers) {
         auth_header = req.headers;
         tok = auth_header.authorization;
@@ -86,7 +88,8 @@ proxy.on('proxyReq', function(proxyReq, req, res, options) {
             password = tokens[tok].password;
         }
     }; 
-    proxyReq.setHeader('X-Special-Proxy-Header', 'foobar');
+    proxyReq.setHeader('Authorization', 'Basic ' + new Buffer(username + ':' + password).toString('base64'));
+
 });
 
 var server = http.createServer(function(req, res) {
