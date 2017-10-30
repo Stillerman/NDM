@@ -12,6 +12,9 @@
         <div class="col s3">
           <input type="text" v-model="shot" name="Shot" placeholder="Shot" value="">
         </div>
+        <div class="col s3">
+          {{searchData}}
+        </div>
     </div>
     <div v-else class="input-field col s10">
           <i class="material-icons prefix">search</i>
@@ -115,11 +118,25 @@ export default {
     })
 
     eventHub.$on('new constraint', (field, val) => {
-      console.log('new constraint added')
       this.search += ':' + field + '=' + val + ' '
     })
   },
-
+  computed: {
+    searchData () {
+      let results = {}
+      this.search.split(' ').filter(word => word.startsWith(':'))
+        .map(term => {
+          return {
+            field: term.split('=')[0].substring(1),
+            val: term.split('=')[1]
+          }
+        })
+        .forEach(constr => {
+          results[constr.field] = constr.val
+        })
+      return results
+    }
+  },
   methods: {
     getMeta (entry) {
       return `Created by ${entry.header.username} at ${moment(entry.header.entered).format('llll')}.`
