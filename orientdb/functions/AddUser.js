@@ -2,7 +2,7 @@ var gdb = orient.getGraph();
 
 //var v=gdb.addVertex('class:Person',{"firstname":firstname,"lastname":lastname}); //shouldn't this work? Where is API defined?!
 try{
-var newPerson = {"firstname":firstname,"lastname":lastname,"email":email};
+var newPerson = {"firstname":firstname,"lastname":lastname,"email":email,"phone":phone,"comment":comment};
 var cmd = 'create vertex Person CONTENT ' + JSON.stringify(newPerson);
 print('try '+cmd);
 var v = gdb.command("sql",cmd);
