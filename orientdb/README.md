@@ -22,7 +22,7 @@ and OSX that embed their own kernel)
 Begin by creating a local areas for peristent storage. 
 The `local` directory is provided in the git repo.
 
-    mkdir config databases backup
+    mkdir databases backup
 
 To start the orientdb server, we run the docker image from the
 orientdb repo, opening ports
@@ -86,8 +86,8 @@ docker run  --rm -it -v $PWD:/orientdb/local orientdb:latest /orientdb/bin/oetl.
 docker run  --rm -it -v $PWD:/orientdb/local orientdb:latest /orientdb/bin/oetl.sh /orientdb/local/orientdb_inject_miniprop.json
 docker run  --rm -it -v $PWD:/orientdb/local orientdb:latest /orientdb/bin/oetl.sh /orientdb/local/orientdb_inject_run.json
 docker run  --rm -it -v $PWD:/orientdb/local orientdb:latest /orientdb/bin/oetl.sh /orientdb/local/orientdb_inject_runlist.json
-docker run  --rm -it -v $PWD/orientdb/local:/orientdb/local orientdb:latest /orientdb/bin/oetl.sh /orientdb/local/orientdb_inject_shots.json
-docker run  --rm -it -v $PWD/orientdb/local:/orientdb/local orientdb:latest /orientdb/bin/oetl.sh  /orientdb/local/orientdb_inject_entries.json
+docker run  --rm -it -v $PWD:/orientdb/local orientdb:latest /orientdb/bin/oetl.sh /orientdb/local/orientdb_inject_shots.json
+docker run  --rm -it -v $PWD:/orientdb/local orientdb:latest /orientdb/bin/oetl.sh /orientdb/local/orientdb_inject_entries.json
 
 ```
 

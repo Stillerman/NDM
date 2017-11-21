@@ -12,10 +12,13 @@
         <div class="col s3">
           <input type="text" v-model="shot" name="Shot" placeholder="Shot" value="">
         </div>
+        <div class="col s3">
+          {{searchData}}
+        </div>
     </div>
     <div v-else class="input-field col s10">
           <i class="material-icons prefix">search</i>
-          <input id="icon_prefix" type="text" class="validate">
+          <input v-model="search" id="icon_prefix" type="text" class="validate">
           <label for="icon_prefix">Search</label>
     </div>
           </div>
@@ -80,6 +83,11 @@ export default {
     LogBookRow,
     PopupEditor
   },
+  watch: {
+    '$route' (to, from) {
+      // react to route changes...
+    }
+  },
   created () {
     eventHub.$on('new entry', ({topic, body, run, shot}) => {
       this.editing = false
@@ -108,8 +116,27 @@ export default {
       .then(response => console.log(response))
       .then(() => this.entries.push(temp))
     })
-  },
 
+    eventHub.$on('new constraint', (field, val) => {
+      this.search += ':' + field + '=' + val + ' '
+    })
+  },
+  computed: {
+    searchData () {
+      let results = {}
+      this.search.split(' ').filter(word => word.startsWith(':'))
+        .map(term => {
+          return {
+            field: term.split('=')[0].substring(1),
+            val: term.split('=')[1]
+          }
+        })
+        .forEach(constr => {
+          results[constr.field] = constr.val
+        })
+      return results
+    }
+  },
   methods: {
     getMeta (entry) {
       return `Created by ${entry.header.username} at ${moment(entry.header.entered).format('llll')}.`
@@ -126,7 +153,8 @@ export default {
       editing: false,
       run: 1090909,
       shot: 0,
-      showSettings: false
+      showSettings: false,
+      search: ''
     }
   }
 }

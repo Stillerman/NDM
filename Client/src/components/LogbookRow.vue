@@ -10,10 +10,10 @@
       <div class="col s3">
         <span class="connections"></span>
         <a class='btn' @click="connectionsVisible = !connectionsVisible">{{entry.header.username}}</a>
-        <div class="connectionsBlob" :style="{transform: 'translate(0, ' + getPageOffset() +', 0)'}" v-if='connectionsVisible'>
-          <a :href="('/user/' + entry.header.username + '/entries')">Other Entries</a>
+        <div class="connectionsBlob" v-if='connectionsVisible'>
+          <a :href="('/user/' + entry.header.username + '/entries')" @click.prevent="addSearchConstraint('author', entry.header.username)">Other Entries</a>
           <br>
-          <a :href="('/user/' + entry.header.username + '/miniproposals')">Other Miniproposals</a>
+          <a :href="('/user/' + entry.header.username + '/miniproposals')" @click.prevent="addSearchConstraint('author', entry.header.username);addSearchConstraint('type', 'miniproposal')">Other Miniproposals</a>
         </div>
 
       </div>
@@ -34,6 +34,7 @@
 
 <script>
 import moment from 'moment'
+import eventHub from '@/EventHub.js'
 
 export default {
   filters: {
@@ -51,7 +52,8 @@ export default {
     activate: entry => { entry.active = true },
     toggle: entry => { entry.active = !(entry.active || false) },
     needsExpansion: entry => entry.body.text.length !== entry.header.summary.length,
-    getPageOffset: () => window.pageYOffset
+    getPageOffset: () => window.pageYOffset,
+    addSearchConstraint: (field, val) => eventHub.$emit('new constraint', field, val)
   },
   data () {
     return {

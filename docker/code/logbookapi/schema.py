@@ -39,6 +39,8 @@ class Preference(DjangoObjectType):
     class Meta:
         model = PreferenceModel
 
+import re
+import textwrap
 class Header(graphene.ObjectType):
     name = 'Entry Header'
     description = 'Header of the entry'
@@ -49,10 +51,23 @@ class Header(graphene.ObjectType):
     run = graphene.Int()
     shot = graphene.Int()
     topic = graphene.String()
+    title = graphene.String()
     summary = graphene.String()
-
+    lines = None
+    def resolve_title(self, user, args, info):
+        lines = parse_lines(self.text)
+        return lines[0]
     def resolve_summary(self, user, args, info):
-        return self.text[:132]
+        lines = parse_lines(self.text)
+        return lines[1:4]
+
+def parse_lines(txt):
+    lines = re.split('\n|(?i)<br>', txt)
+    for i in range(min(4, len(lines))):
+        if len(lines[i]) > 80 :
+            new = textwrap.wrap(lines[i], 64)
+            lines[i:i+1] = new
+    return lines
 
 class Body(graphene.ObjectType):
     name = 'Entry Body'
