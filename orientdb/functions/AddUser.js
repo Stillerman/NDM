@@ -34,7 +34,7 @@ if (v1 != null){
   cmd = "UPDATE Person set ouser="+v1.getProperty("@rid")+" WHERE @rid="+v.getRecord().field('@rid');
   print('try '+cmd);
   gdb.command("sql",cmd);
-  cmd = "UPDATE Person set person="+v1.getProperty("@rid")+" WHERE @rid="+v.getRecord().field('@rid')+" INVERSE";
+  cmd = "UPDATE OUser set person="+v.getRecord().field('@rid')+" WHERE @rid="+v1.getProperty("@rid");
   print('try '+cmd);
   gdb.command("sql",cmd);
 }
