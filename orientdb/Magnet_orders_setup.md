@@ -13,7 +13,7 @@ db user/pass of admin/admin.
 
 Enter the following commands in the console:
 ```
-CREATE VERTEX Person EXTENDS V
+CREATE CLASS Person EXTENDS V
 
 CREATE USER Proxy IDENTIFIED BY serverpw ROLE admin
 
@@ -21,12 +21,20 @@ CREATE LINK ouser TYPE LINK FROM Person.dbname TO OUser.name
 CREATE LINK person TYPE LINK FROM Person.dbname TO OUser.name INVERSE
 ```
 
-Go to Schema tab and create a new vertex class, Person. Note
+Go to Schema tab. Note
 that the db user class is =ouser=. Click on the new Person
 class and use the =New Property= button to fill out a schema
 for it: firstname, lastname, email, phone, comment,
-dbname.
+dbname. Check NOTNULL and MANDATORY for firstname, lastname and email.
 
+Note this can be done from the console as well with
+
+```
+create property Person.firstname STRING
+alter property Person.lastname MANDATORY true
+alter property Person.lastname NOTNULL true
+```
+etc.
 
 In the Studio, go to Functions tab. Create a new function, AddUser.
 
@@ -44,4 +52,5 @@ payload if preferred.
 
 
 TODO: Wrap this all up in a dockerfile to instantiate easily.
+TODO: SSL for HTTPS
 
