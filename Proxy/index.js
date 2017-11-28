@@ -107,7 +107,7 @@ var server = http.createServer(function(req, res) {
     }
   }
   proxy.web(req, res, {
-    target: 'http://127.0.0.1:8080'
+    target: 'http://0.0.0.0:8080'
   });
 });
 

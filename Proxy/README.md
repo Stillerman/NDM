@@ -25,4 +25,24 @@ To do:
      - not it will have to have admin access to the database to do this
      - limit connections to the database, to only this proxy server.
  3 - change to a database service  - maybe just use the orient ?
+     (not orient)  could be sqlite in the docker is the right answer
+ 4 - inject the orient proxy password into script
+ 5 - add the call to make_user to the script
 
+To Build:
+
+```
+cd to this directory
+docker build -t ndm/proxy .
+```
+
+To run:
+
+```
+docker run -d  ndm/proxy 
+```
+
+To get an interactive prompt:
+```
+docker exec -i -t ndm/proxy /bin/bash
+```
