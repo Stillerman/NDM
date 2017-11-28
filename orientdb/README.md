@@ -20,7 +20,8 @@ https://www.linuxbabe.com/linux-server/install-docker-on-debian-8-jessie-server)
 and OSX that embed their own kernel)
 
 Begin by creating a local areas for peristent storage. 
-The `local` directory is provided in the git repo.
+The `local` and `config` directores are provided in the git repo. You may omit mounting the config directory 
+and orientdb will supply it, but configuration changes you make will not be persistent.
 
     mkdir databases backup
 
