@@ -4,6 +4,8 @@ import Logbook from '@/components/Logbook'
 import Callback from '@/components/Callback'
 import Web from '@/components/Web'
 import User from '@/components/User'
+import Users from '@/components/Users'
+import TapeEntry from '@/components/TapeEntry'
 
 Vue.use(Router)
 
@@ -27,6 +29,12 @@ export default new Router({
     },
     {
       path: '/user/:nickname', component: User
+    },
+    {
+      path: '/users', name: 'Users', component: Users
+    },
+    {
+      path: '/tapeentry', name: 'TapeEntry', component: TapeEntry
     }
   ]
 })

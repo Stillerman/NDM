@@ -25,6 +25,7 @@
     "materialize-css": "^0.99.0",
     "moment": "^2.18.1",
     "vue": "^2.3.3",
+    "vue2-editor": "^2.0.26",
     "vue-apollo": "^2.1.0-beta.9",
     "vue-carousel": "^0.6.4",
     "vue-router": "^2.3.1",
