@@ -16,4 +16,4 @@ RUN npm install --only=production
 COPY . .
 
 EXPOSE 5050
-CMD [ "node", "index.js" ]
+#CMD [ "node", "index.js" ]

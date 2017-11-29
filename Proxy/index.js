@@ -25,6 +25,7 @@ let db = new sqlite3.Database('./db/user.db', (err) => {
 //  Database holds users
 //     sub - returned by auth0
 //     username - nickname returned by auth0
+//                 console.log(body)
 //     password - generated and used to create acount
 //     token - stored in database for now
 // figure out the username and password
@@ -63,7 +64,7 @@ var server = http.createServer(function(req, res) {
       console.log("token for " + req.headers.authorization + " not stored");
       rp({
         method: 'POST',
-        url: "https://mit-psfc.auth0.com/userinfo",
+        url: "https://psfc.auth0.com/userinfo",
         headers: {
           'content-type': 'application/json',
           'authorization': req.headers.authorization,
@@ -73,16 +74,32 @@ var server = http.createServer(function(req, res) {
         console.log(body);
         if (body.startsWith('Unauthorized')) {
           res.statusCode = 401
-          res.end = 'Authentication service returned an error ' + error;
+          res.end = 'Authentication service returned an error ' + body;
         }
         else {
           bd = JSON.parse(body);
           db.get('select username, password from users where sub = ?', [bd.sub], function(err, row) {
             if (err || !(row)) {
               console.log('row is not in database');
-              username = bd.nickname;
+              console.log(bd);
+              username = bd.given_name+'_'+bd.family_name;
               password = Math.random().toString(36).substring(2);
-              // createAccount(username, password);
+              rp({
+                     auth: {
+                       'user' : 'Proxy',
+                       'password': 'serverpw'
+                     },
+                     method: 'POST',
+                     url: "http://localhost:2480/function/Magnet_orders/AddUser/"+bd.given_name+"/"+bd.family_name+"/"+bd.email+"/empty/empty/"+password,
+                  
+              })
+              .then((body) => {
+                 bdd = JSON.parse(body);
+                 console.log(bdd)
+                 console.log(bdd.result[0].dbname)
+                 username=bdd.result[0].dbname              
+              })
+//              AddUser(given_name, family_name, email, empty, empty, password);
               tokens[tok] = {
                 'username': username,
                 'password': password
@@ -100,14 +117,14 @@ var server = http.createServer(function(req, res) {
         }
       })
       .catch(err => {
-        console.log('Authentication service returned an error '+ error);
+        console.log('Authentication service returned an error '+ err);
         res.statusCode = 500
-        res.end = 'Authentication service returned an error ' + error;
+        res.end = 'Authentication service returned an error ' + err;
       })
     }
   }
   proxy.web(req, res, {
-    target: 'http://0.0.0.0:8080'
+    target: 'http://0.0.0.0:2480'
   });
 });
 
