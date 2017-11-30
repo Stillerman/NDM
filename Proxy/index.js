@@ -14,13 +14,13 @@ var tokens = {};
 // for now use sqlite - have to think about what to do with this
 //
 let db = new sqlite3.Database('./db/user.db', (err) => {
-  if (err) {
-    console.error(err.message);
-  }
-  console.log('Connected to the users database.');
-  var query = 'CREATE TABLE IF NOT EXISTS users (sub varchar(32) PRIMARY KEY, username varchar(32) NOT NULL,password varchar(32) NOT NULL, table_constraint);'
-  db.run(query);
-  console.log('table created');
+    if (err) {
+        console.error(err.message);
+    }
+    console.log('Connected to the users database.');
+    var query = 'CREATE TABLE IF NOT EXISTS users (sub varchar(32) PRIMARY KEY, username varchar(32) NOT NULL,password varchar(32) NOT NULL, table_constraint);'
+    db.run(query);
+    console.log('table created');
 });
 //  Database holds users
 //     sub - returned by auth0
@@ -43,89 +43,92 @@ let db = new sqlite3.Database('./db/user.db', (err) => {
 //   use this username and password
 //
 proxy.on('proxyReq', function(proxyReq, req, res, options) {
-  var username;
-  var password;
-  if (tok in tokens) {
-    username = tokens[tok].username;
-    password = tokens[tok].password;
-    proxyReq.setHeader('Authorization', 'Basic ' + new Buffer(username + ':' + password).toString('base64'));
-  }
+    var username;
+    var password;
+    if (tok in tokens) {
+        username = tokens[tok].username;
+        password = tokens[tok].password;
+        console.log('Generating Authorization Header');
+        console.log('Basic ' + new Buffer(username + ':' + password).toString('base64'));
+        proxyReq.setHeader('Authorization', 'Basic ' + new Buffer(username + ':' + password).toString('base64'));
+    }
 });
 
 var server = http.createServer(function(req, res) {
-  // You can define here your custom logic to handle the request
-  // and then proxy the request.
+    // You can define here your custom logic to handle the request
+    // and then proxy the request.
 
-  var username;
-  var password;
-  if ('authorization' in req.headers) {
-    tok = req.headers.authorization.split(" ")[1]
-    if (!(tok in tokens)) {
-      console.log("token for " + req.headers.authorization + " not stored");
-      rp({
-        method: 'POST',
-        url: "https://psfc.auth0.com/userinfo",
-        headers: {
-          'content-type': 'application/json',
-          'authorization': req.headers.authorization,
+    var username;
+    var password;
+    if ('authorization' in req.headers) {
+        tok = req.headers.authorization.split(" ")[1]
+        if (!(tok in tokens)) {
+            console.log("token for " + req.headers.authorization + " not stored");
+            rp({
+                    method: 'POST',
+                    url: "https://psfc.auth0.com/userinfo",
+                    headers: {
+                        'content-type': 'application/json',
+                        'authorization': req.headers.authorization,
+                    }
+                })
+                .then((body) => {
+                    console.log(body);
+                    if (body.startsWith('Unauthorized')) {
+                        res.statusCode = 401
+                        res.end = 'Authentication service returned an error ' + body;
+                    } else {
+                        bd = JSON.parse(body);
+                        db.get('select username, password from users where sub = ?', [bd.sub], function(err, row) {
+                            if (err || !(row)) {
+                                console.log('row is not in database');
+                                console.log(bd);
+                                username = bd.given_name + '_' + bd.family_name;
+                                password = Math.random().toString(36).substring(2);
+                                rp({
+                                        auth: {
+                                            'user': 'Proxy',
+                                            'password': 'serverpw'
+                                        },
+                                        method: 'POST',
+                                        url: "http://localhost:2480/function/Magnet_orders/AddUser/" + bd.given_name + "/" + bd.family_name + "/" + bd.email + "/empty/empty/" + password,
+
+                                    })
+                                    .then((body) => {
+                                        bdd = JSON.parse(body);
+                                        console.log(bdd)
+                                        console.log(bdd.result[0].dbname)
+                                        username = bdd.result[0].dbname
+                                    })
+                                //              AddUser(given_name, family_name, email, empty, empty, password);
+                                tokens[tok] = {
+                                    'username': username,
+                                    'password': password
+                                };
+                                console.log('username: ' + username, '  password: ' + password);
+                                db.run("insert into users (sub, username, password) values(?, ?, ?)", [bd.sub, username, password], function(err) {
+                                    console.log(err)
+                                });
+                                console.log("inserted");
+                            } else {
+                                tokens[tok] = {
+                                    'username': row.username,
+                                    'password': row.password
+                                };
+                            }
+                        })
+                    }
+                })
+                .catch(err => {
+                    console.log('Authentication service returned an error ' + err);
+                    res.statusCode = 500
+                    res.end = 'Authentication service returned an error ' + err;
+                })
         }
-      })
-      .then((body) => {
-        console.log(body);
-        if (body.startsWith('Unauthorized')) {
-          res.statusCode = 401
-          res.end = 'Authentication service returned an error ' + body;
-        }
-        else {
-          bd = JSON.parse(body);
-          db.get('select username, password from users where sub = ?', [bd.sub], function(err, row) {
-            if (err || !(row)) {
-              console.log('row is not in database');
-              console.log(bd);
-              username = bd.given_name+'_'+bd.family_name;
-              password = Math.random().toString(36).substring(2);
-              rp({
-                     auth: {
-                       'user' : 'Proxy',
-                       'password': 'serverpw'
-                     },
-                     method: 'POST',
-                     url: "http://localhost:2480/function/Magnet_orders/AddUser/"+bd.given_name+"/"+bd.family_name+"/"+bd.email+"/empty/empty/"+password,
-                  
-              })
-              .then((body) => {
-                 bdd = JSON.parse(body);
-                 console.log(bdd)
-                 console.log(bdd.result[0].dbname)
-                 username=bdd.result[0].dbname              
-              })
-//              AddUser(given_name, family_name, email, empty, empty, password);
-              tokens[tok] = {
-                'username': username,
-                'password': password
-              };
-              console.log('username: ' + username, '  password: '+ password);
-              db.run("insert into users (sub, username, password) values(?, ?, ?)", [bd.sub, username, password], function(err){ console.log(err)});
-              console.log("inserted");
-            } else {
-              tokens[tok] = {
-                'username': row.username,
-                'password': row.password
-              };
-            }
-          })
-        }
-      })
-      .catch(err => {
-        console.log('Authentication service returned an error '+ err);
-        res.statusCode = 500
-        res.end = 'Authentication service returned an error ' + err;
-      })
     }
-  }
-  proxy.web(req, res, {
-    target: 'http://0.0.0.0:2480'
-  });
+    proxy.web(req, res, {
+        target: 'http://0.0.0.0:2480'
+    });
 });
 
 console.log("listening on port 5050");
