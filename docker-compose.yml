@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+    proxy: 
+       build: './Proxy'
+       ports:
+         - 5050:5050
+    orientdb:
+       build: './orientdb'
+       volumes:
+           - ./orientdb/config:/orientdb/config
+           - ./orientdb/databases:/orientdb/databases
+           - ./orientdb/backup:/orientdb/backup
+           - ./orientdb/local:/orientdb/local
+       environment:
+           - ORIENTDB_ROOT_PASSWORD=ankmyx
+       ports:
+         - 2424:2424
+         - 2480:2480

@@ -107,7 +107,7 @@ var server = http.createServer(function(req, res) {
                             }
                             req.headers.authorization='Basic ' + new Buffer(tokens[tok].username + ':' + tokens[tok].password).toString('base64');
                             proxy.web(req, res, {
-                                target: 'http://0.0.0.0:2480'
+                                target: 'http://orientdb:2480'
                             });
 
                         })
@@ -122,7 +122,7 @@ var server = http.createServer(function(req, res) {
         else {
           req.headers.authorization='Basic ' + new Buffer(tokens[tok].username + ':' + tokens[tok].password).toString('base64');
           proxy.web(req, res, {
-              target: 'http://0.0.0.0:2480'
+              target: 'http://oriendb:2480'
           });
         }
       }
