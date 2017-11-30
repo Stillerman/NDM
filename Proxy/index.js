@@ -42,17 +42,6 @@ let db = new sqlite3.Database('./db/user.db', (err) => {
 //   associate this token
 //   use this username and password
 //
-proxy.on('proxyReq', function(proxyReq, req, res, options) {
-    var username;
-    var password;
-    if (tok in tokens) {
-        username = tokens[tok].username;
-        password = tokens[tok].password;
-        console.log('Generating Authorization Header');
-        console.log('Basic ' + new Buffer(username + ':' + password).toString('base64'));
-        proxyReq.setHeader('Authorization', 'Basic ' + new Buffer(username + ':' + password).toString('base64'));
-    }
-});
 
 var server = http.createServer(function(req, res) {
     // You can define here your custom logic to handle the request
@@ -100,7 +89,6 @@ var server = http.createServer(function(req, res) {
                                         console.log(bdd.result[0].dbname)
                                         username = bdd.result[0].dbname
                                     })
-                                //              AddUser(given_name, family_name, email, empty, empty, password);
                                 tokens[tok] = {
                                     'username': username,
                                     'password': password
@@ -111,11 +99,17 @@ var server = http.createServer(function(req, res) {
                                 });
                                 console.log("inserted");
                             } else {
+                                console.log('IT was in the database')
                                 tokens[tok] = {
                                     'username': row.username,
                                     'password': row.password
                                 };
                             }
+                            req.headers.authorization='Basic ' + new Buffer(tokens[tok].username + ':' + tokens[tok].password).toString('base64');
+                            proxy.web(req, res, {
+                                target: 'http://0.0.0.0:2480'
+                            });
+
                         })
                     }
                 })
@@ -125,10 +119,14 @@ var server = http.createServer(function(req, res) {
                     res.end = 'Authentication service returned an error ' + err;
                 })
         }
-    }
-    proxy.web(req, res, {
-        target: 'http://0.0.0.0:2480'
-    });
+        else {
+          req.headers.authorization='Basic ' + new Buffer(tokens[tok].username + ':' + tokens[tok].password).toString('base64');
+          proxy.web(req, res, {
+              target: 'http://0.0.0.0:2480'
+          });
+        }
+      }
+
 });
 
 console.log("listening on port 5050");
