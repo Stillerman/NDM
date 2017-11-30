@@ -15,5 +15,5 @@ RUN npm install --only=production
 # Bundle app source
 COPY . .
 
-EXPOSE 5050
-#CMD [ "node", "index.js" ]
+EXPOSE 5050:5050
+CMD [ "node", "index.js" ]
