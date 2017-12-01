@@ -67,7 +67,7 @@ var server = http.createServer(function(req, res) {
             console.log("token for " + req.headers.authorization + " not stored");
             rp({
                     method: 'POST',
-                    url: "https://psfc.auth0.com/userinfo",
+                    url: "https://mit-psfc.auth0.com/userinfo",
                     headers: {
                         'content-type': 'application/json',
                         'authorization': req.headers.authorization,
@@ -101,28 +101,36 @@ var server = http.createServer(function(req, res) {
                                         console.log(bdd.result[0].dbname)
                                         username = bdd.result[0].dbname
                                     })
-                                tokens[tok] = {
-                                    'username': username,
-                                    'password': password
-                                };
-                                console.log('username: ' + username, '  password: ' + password);
-                                db.run("insert into users (sub, username, password) values(?, ?, ?)", [bd.sub, username, password], function(err) {
+                                    .then(() => {
+                                       tokens[tok] = {
+                                         'username': username,
+                                         'password': password
+                                       };
+                                  console.log('username: ' + username, '  password: ' + password);
+                                  db.run("insert into users (sub, username, password) values(?, ?, ?)", [bd.sub, username, password], function(err) {
                                     console.log(err)
+                                  });
+                                  console.log("inserted");
+                                })
+                                .then(() => {
+                                  req.headers.authorization='Basic ' + new Buffer(tokens[tok].username + ':' + tokens[tok].password).toString('base64');
+                                  proxy.web(req, res, {
+                                    target: 'http://orientdb:2480',
+                                    changeOrigin: true
+                                  });
                                 });
-                                console.log("inserted");
                             } else {
                                 console.log('IT was in the database')
                                 tokens[tok] = {
                                     'username': row.username,
                                     'password': row.password
                                 };
+                                req.headers.authorization='Basic ' + new Buffer(tokens[tok].username + ':' + tokens[tok].password).toString('base64');
+                                proxy.web(req, res, {
+                                  target: 'http://orientdb:2480',
+                                  changeOrigin: true
+                                });
                             }
-                            req.headers.authorization='Basic ' + new Buffer(tokens[tok].username + ':' + tokens[tok].password).toString('base64');
-                            proxy.web(req, res, {
-                                target: 'http://orientdb:2480',
-                                changeOrigin: true
-                            });
-
                         })
                     }
                 })
@@ -134,6 +142,8 @@ var server = http.createServer(function(req, res) {
         }
         else {
           req.headers.authorization='Basic ' + new Buffer(tokens[tok].username + ':' + tokens[tok].password).toString('base64');
+          console.log('Normal case');
+          console.log(req.headers.authorization);
           proxy.web(req, res, {
               target: 'http://orientdb:2480',
               changeOrigin: true
