@@ -92,7 +92,11 @@ var server = http.createServer(function(req, res) {
                                             'password': 'serverpw'
                                         },
                                         method: 'POST',
-                                        url: "http://orientdb:2480/function/Magnet_orders/AddUser/" + bd.given_name + "/" + bd.family_name + "/" + bd.email + "/empty/empty/" + password,
+                                        url: "http://orientdb:2480/function/Magnet_orders/AddUser/" + 
+                                              bd.given_name.trim() + "/" + 
+                                              bd.family_name.trim() + "/" + 
+                                              bd.email.trim() + 
+                                              "/empty/empty/" + password,
 
                                     })
                                     .then((body) => {
