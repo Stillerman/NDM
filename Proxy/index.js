@@ -22,6 +22,16 @@ let db = new sqlite3.Database('./db/user.db', (err) => {
     db.run(query);
     console.log('table created');
 });
+proxy.on('proxyRes', (proxyRes, req, res) => {
+
+    res.setHeader('access-control-allow-methods', '*');
+
+    res.setHeader('access-control-allow-headers', '*');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+  res.setHeader('access-control-max-age', 60 * 60 * 24 * 30);
+});
+
 //  Database holds users
 //     sub - returned by auth0
 //     username - nickname returned by auth0
@@ -49,6 +59,8 @@ var server = http.createServer(function(req, res) {
 
     var username;
     var password;
+    console.log('In proxy server');
+    console.log(req.method);
     if ('authorization' in req.headers) {
         tok = req.headers.authorization.split(" ")[1]
         if (!(tok in tokens)) {
@@ -107,7 +119,8 @@ var server = http.createServer(function(req, res) {
                             }
                             req.headers.authorization='Basic ' + new Buffer(tokens[tok].username + ':' + tokens[tok].password).toString('base64');
                             proxy.web(req, res, {
-                                target: 'http://orientdb:2480'
+                                target: 'http://orientdb:2480',
+                                changeOrigin: true
                             });
 
                         })
@@ -122,10 +135,21 @@ var server = http.createServer(function(req, res) {
         else {
           req.headers.authorization='Basic ' + new Buffer(tokens[tok].username + ':' + tokens[tok].password).toString('base64');
           proxy.web(req, res, {
-              target: 'http://oriendb:2480'
+              target: 'http://orientdb:2480',
+              changeOrigin: true
           });
         }
+    }
+    else {
+      if (req.method == 'OPTIONS') {
+          console.log("It is an options query");
+          proxy.web(req, res, {
+              target: 'http://orientdb:2480',
+              changeOrigin: true
+          });
+
       }
+    }
 
 });
 

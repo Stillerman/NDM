@@ -4,7 +4,7 @@
       Email: {{user.email}}<br>
       First Name: {{user.firstname}}<br>
       Last Name: {{user.lastname}}<br>
-      Username: {{user.username}}
+      Username: {{user.dbname}}
     </div>
   </div>
 </template>
@@ -23,14 +23,13 @@ export default {
   },
   methods: {
     refresh () {
-      axios.get('http://localhost:8000/users', {
+      axios.get('http://localhost:5050/query/Magnet_orders/sql/select from Person', {
         headers: {
-          Authorization: 'Basic dGVzdGluZzpsZXRzdHJ5dGhpcw==',
-          testAuth: 'Bearer ' + localStorage.access_token
+          Authorization: 'Bearer ' + localStorage.access_token
         }
       })
         .then(page => {
-          this.users = page.data.results
+          this.users = page.data.result
         })
     }
   }
