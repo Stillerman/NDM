@@ -1,0 +1,37 @@
+{    "$schema": "http://json-schema.org/draft-06/schema#", 
+     "id": "http://ndm.psfc.mit.edu/schemas/magnet_schema.json",
+     "title": "abstractNDMobject",
+     "description": "Information about database entry",
+     "definitions": {
+	 "link": {
+	     "description": "link with link type pointing to record by rid",
+	     "type": "object",
+	     "properties": {
+		 "linked-class": {"type": "string"},
+		 "rid": {"type": "string"}
+	     },
+	     "required": ["linked-class", "rid"]
+	 },
+	 "V": {
+	     "description": "Vertex base class",
+	     "type": "object",
+	     "properties": {
+		 "name": {"type": "string"},
+		 "rid": {"type": "string"}
+	     }
+	 }
+     },
+     "type": "object",
+     "allOf": [{ "$ref": "#/definitions/V" }],
+     "extends" : "V",
+     "properties": {
+	 "createdBy": {
+	     "$ref": "#/definitions/link"
+	 },
+	 "creationTime": {
+	     "type": "string",
+	     "format": "date-time"
+	 }
+     },
+     "required": ["creationTime", "createdBy"]
+}
