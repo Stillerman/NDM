@@ -1,7 +1,7 @@
 {
   "name": "proxy",
   "version": "1.0.0",
-  "description": "",
+  "description": "A proxy server to convert AUTH0 tokens into Basic Auth header",
   "main": "index.js",
   "dependencies": {
     "axios": "^0.17.0",
@@ -15,6 +15,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Jason Stillerman",
+  "license": "MIT"
 }

@@ -20,7 +20,7 @@ export default class AuthService {
     redirectUri: AUTH_CONFIG.callbackUrl,
     audience: `https://${AUTH_CONFIG.domain}/userinfo`,
     responseType: 'token id_token',
-    scope: 'openid profile email'
+    scope: 'openid profile email firstname lastname telephone'
   })
 
   login () {
