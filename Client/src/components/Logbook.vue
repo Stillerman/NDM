@@ -15,13 +15,13 @@
         <div class="col s3">
           {{searchData}}
         </div>
+      </div>
+      <div v-else class="input-field col s10">
+        <i class="material-icons prefix">search</i>
+        <input v-model="search" id="icon_prefix" type="text" class="validate">
+        <label for="icon_prefix">Search</label>
+      </div>
     </div>
-    <div v-else class="input-field col s10">
-          <i class="material-icons prefix">search</i>
-          <input v-model="search" id="icon_prefix" type="text" class="validate">
-          <label for="icon_prefix">Search</label>
-    </div>
-          </div>
 
 
     <div v-for='entry in entries' style="text-align: left;">
@@ -50,7 +50,7 @@ export default {
   apollo: {
     entries: {
       query: gql`
-        query getEntries($run: Int!){
+      query getEntries($run: Int!){
         entries(run: $run){
           header{
             username
@@ -125,15 +125,15 @@ export default {
     searchData () {
       let results = {}
       this.search.split(' ').filter(word => word.startsWith(':'))
-        .map(term => {
-          return {
-            field: term.split('=')[0].substring(1),
-            val: term.split('=')[1]
-          }
-        })
-        .forEach(constr => {
-          results[constr.field] = constr.val
-        })
+      .map(term => {
+        return {
+          field: term.split('=')[0].substring(1),
+          val: term.split('=')[1]
+        }
+      })
+      .forEach(constr => {
+        results[constr.field] = constr.val
+      })
       return results
     }
   },
@@ -174,12 +174,11 @@ export default {
   transition: 0.5s
 }
 .spin.active{
-transform: rotateZ(45deg) scale(1.5);
+  transform: rotateZ(45deg) scale(1.5);
 }
 
 #settings{
   transition: 0.3s
-
 }
 
 #settings.active {
