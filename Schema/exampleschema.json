@@ -1,0 +1,31 @@
+{    "id": "http://ndm.mit.edu/magnet_orders/schemas/exampleschema",
+     "$schema": "http://json-schema.org/draft-06/schema#",
+     "title": "exampleschema",
+     "description": "Example class schema.",
+     "definitions": { },
+     "type": "object",
+     "allOf": [
+	 { "$ref": "_NDMobject#/definitions/V" },
+	 { "$ref": "_NDMobject" } ],
+     "properties": {
+	 "fromThing": {
+	     "$ref": "_NDMobject#/definitions/LINK",
+	     "defaultvalue": {"linked-class":"OtherThing"}
+	 },
+	 "color": {
+	     "type": "string"
+	 },
+	 "details": {
+	     "type": "object",
+	     "properties": {
+		 "detail1": {
+		     "description" : "An ID number", 
+		     "type": "integer"
+		 },
+		 "detail2": { "type": "string", "format":"date-time"},
+		 "detail3": { "type": "string"}
+	     }
+	 }
+     },
+     "required": ["color"]
+}
