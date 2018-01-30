@@ -1,0 +1,20 @@
+[
+  {
+    "who": "jts",
+    "what": "Tape",
+    "when": "Now",
+    "GUID": "5676433dfg4wd",
+    "summary": {
+      "title": "Tape numero uno",
+      "brief": "This is the first tape ever",
+      "relationships": {
+        "reel": "fkuskshkr56"
+      },
+      "thumbnail": "http://thumbnail.yata",
+      "additional": {
+        "length": 10,
+        "width": 30
+      }
+    }
+  }
+]

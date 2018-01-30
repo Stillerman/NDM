@@ -44,7 +44,13 @@ export default {
       voltageTap: '',
       voltageFloor: '',
       rampRate: 0.005,
-      vGoal: 0.25
+      vGoal: 0.25,
+      schema: {
+        shot: {
+          sampleName: String,
+          notes: String
+        }
+      }
     }
   }
 }
