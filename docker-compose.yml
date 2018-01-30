@@ -1,6 +1,10 @@
 version: '3'
 
 services:
+    web:
+       build: './Client'
+       ports: 
+         - 80:8080
     proxy: 
        build: './Proxy'
        ports:
