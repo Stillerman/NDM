@@ -1,21 +1,34 @@
 <template>
   <div class="generic-viewer">
-    <h2>Generic Viewer</h2>
+    <h2>{{settings.pageTitle}}</h2>
     <div class="row">
       <div class="col s1">
         <i id="settings" @click="showSettings = !showSettings" v-bind:class="{active: showSettings}" class="medium material-icons" style="left:0;">settings</i>
       </div>
-      <div v-if="showSettings">
-        <div v-for="setting in Object.keys(settings)"class="col s3">
-          <input type="text" v-model="settings[setting]" :name="setting" :placeholder="setting" value="">
-        </div>
-        {{settings}}
-        <a class="btn" @click="resetSettings()">Reset</a>
-      </div>
-      <div v-else class="input-field col s10">
+      <div class="input-field col s10">
         <i class="material-icons prefix">search</i>
-        <input v-model="search" id="icon_prefix" type="text" class="validate">
+        <input v-model="settings.search" id="icon_prefix" type="text" class="validate">
         <label for="icon_prefix">Search</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12 m12">
+        <transition name="fade">
+          <div class="card" v-if="showSettings">
+            <div class="card-content">
+              <span class="card-title">Settings</span>
+              <div class="row">
+                <div v-for="setting in Object.keys(persistantSettings)" class="col s2">
+                  <input type="text" v-model="persistantSettings[setting]" :name="setting" :placeholder="setting" value="">
+                </div>
+              </div>
+            </div>
+            <div class="card-action">
+              <a @click="resetSettings()">Reset</a>
+              <a @click="generateURL()">URL</a>
+            </div>
+          </div>
+        </transition>
       </div>
     </div>
     <div v-for="entry in entries" class="row">
@@ -66,7 +79,7 @@
       </div>
     </div>
     <context-menu id="context-menu" ref="ctxMenu" @ctx-open="onCtxOpen">
-      <li class="ctx-item" @click="goto('hi')">Add Annotation</li>
+      <li class="ctx-item">Add Annotation</li>
       <li class="ctx-item">Show Annotations</li>
       <li class="ctx-item" @click="edit">Edit</li>
     </context-menu>
@@ -79,9 +92,11 @@ import contextMenu from 'vue-context-menu'
 let hash = require('blueimp-md5')
 
 let defaultSettings = {
-  opOne: 56,
-  number: 12,
-  name: 'bixby'
+  pageTitle: 'Generic Viewer',
+  number: 4,
+  name: 'bixby',
+  anotherNumber: 6,
+  search: ''
 }
 
 function removeEmpty (obj) {
@@ -90,6 +105,10 @@ function removeEmpty (obj) {
     if (obj[key]) newObj[key] = obj[key] // Only copy prop if its not empty
   })
   return newObj
+}
+
+function copyToClipboard (text) {
+  window.prompt('Copy to clipboard: Ctrl+C, Enter', text)
 }
 
 export default {
@@ -103,7 +122,8 @@ export default {
       search: '',
       editing: false,
       showSettings: false,
-      settings: {},
+      persistantSettings: {},
+      urlSettings: {},
       // data for editor
       types: ['Tape', 'Reel', 'Annotation', 'Miniproposal'],
       selectedType: 'Tape',
@@ -114,11 +134,21 @@ export default {
       ctxMenuTarget: {}
     }
   },
+  computed: {
+    settings () {
+      let tmp = JSON.parse(JSON.stringify(this.persistantSettings)) // clone persistant
+      Object.keys(this.urlSettings).forEach(key => {
+        tmp[key] = this.urlSettings[key]
+      })
+      return tmp
+    }
+  },
   mounted () {
     this.getSettings()
+    this.urlSettings = getURLArgs()
   },
   watch: {
-    settings: {
+    persistantSettings: {
       handler: 'saveSettings',
       deep: true
     }
@@ -152,7 +182,15 @@ export default {
     },
     getSettings () {
       if (!localStorage.getItem('settings')) localStorage.setItem('settings', JSON.stringify(defaultSettings))
-      this.settings = JSON.parse(localStorage.getItem('settings'))
+      this.persistantSettings = JSON.parse(localStorage.getItem('settings'))
+    },
+    generateURL () {
+      let url = location.origin + location.pathname + '?'
+      Object.keys(this.settings).forEach(key => {
+        url += key + '=' + this.settings[key] + '&'
+      })
+      url = url.substr(0, url.length - 1) // Remove excess '&'
+      copyToClipboard(url)
     },
     saveSettings (set) {
       console.log('saving settings', set)
@@ -184,6 +222,27 @@ export default {
       this.editing = false
     }
   }
+}
+
+function getURLArgs () {
+  let query = window.location.search.substring(1)
+  var vars = query.split('&')
+  var queryString = {}
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split('=')
+    // If first entry with this name
+    if (typeof queryString[pair[0]] === 'undefined') {
+      queryString[pair[0]] = decodeURIComponent(pair[1])
+      // If second entry with this name
+    } else if (typeof queryString[pair[0]] === 'string') {
+      var arr = [queryString[pair[0]], decodeURIComponent(pair[1])]
+      queryString[pair[0]] = arr
+      // If third or later entry with this name
+    } else {
+      queryString[pair[0]].push(decodeURIComponent(pair[1]))
+    }
+  }
+  return queryString
 }
 </script>
 
@@ -231,6 +290,15 @@ export default {
   transform: rotateZ(90deg);
   color: #f0f0f0;
 
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: all 0.25s ease-out;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+  max-height: 1px;
 }
 
 html {
