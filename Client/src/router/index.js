@@ -17,7 +17,10 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/',
+      path: '/', name: 'Home', component: GenericViewer
+    },
+    {
+      path: '/logbook',
       name: 'Logbook',
       component: Logbook
     },

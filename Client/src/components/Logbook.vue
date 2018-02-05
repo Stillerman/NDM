@@ -36,7 +36,7 @@
 
 <script>
 import Card from '@/components/Card.vue'
-import LogBookRow from '@/components/LogBookRow.vue'
+import LogBookRow from '@/components/LogbookRow.vue'
 import PopupEditor from '@/components/PopupEditor.vue'
 import eventHub from '@/EventHub.js'
 import axios from 'axios'
