@@ -2,7 +2,22 @@
      "$schema": "http://json-schema.org/draft-06/schema#",
      "title": "exampleschema",
      "description": "Example class schema.",
-     "definitions": { },
+     "definitions": {
+	 "details":
+	 {
+	     "type": "object",
+	     "description": "An internal reused definition. Legal for json schema but not supported presently from orientdb injest. Will require scanning definitions for new classes and creating.",
+	     "properties": {
+		 "detail1": {
+		     "description" : "An ID number", 
+		     "type": "integer"
+		 },
+		 "detail2": { "type": "string", "format":"date-time"},
+		 "detail3": { "type": "string"}
+	     }
+	 }
+
+     },
      "type": "object",
      "allOf": [
 	 { "$ref": "_NDMobject#/definitions/V" },
@@ -13,18 +28,15 @@
 	     "defaultvalue": {"linked-class":"OtherThing"}
 	 },
 	 "color": {
-	     "type": "string"
+	     "type": "string",
+	     "defaultvalue":"red"
 	 },
+	 "color2": {
+	     "type": "string",
+	     "defaultvalue":"blue"
+	 },	 
 	 "details": {
-	     "type": "object",
-	     "properties": {
-		 "detail1": {
-		     "description" : "An ID number", 
-		     "type": "integer"
-		 },
-		 "detail2": { "type": "string", "format":"date-time"},
-		 "detail3": { "type": "string"}
-	     }
+	     "$ref": "#/definitions/details"
 	 }
      },
      "required": ["color"]

@@ -34,16 +34,17 @@
      "properties": {
 	 "createdBy": {
 	     "$ref": "#/definitions/LINK",
-	     "defaultvalue": {"linked-class":"OUser","rid":"'getHTTPuser()'"}
+	     "defaultvalue": {"linked-class":"Person","rid":"'getHTTPuser()'"}
 	 },
 	 "creationTime": {
 	     "type": "string",
 	     "format": "date-time",
-	     "defaultvalue": "'sysdate'()"
+	     "defaultvalue": "'sysdate()'"
 	 },
 	 "guid": {
 	     "type": "string",
-	     "defaultvalue" : "'uuid()'"
+	     "defaultvalue" : "'uuid()'",
+	     "dbprop" : "READONLY TRUE"
 	 }
      },
      "required": ["creationTime", "createdBy","guid"]
