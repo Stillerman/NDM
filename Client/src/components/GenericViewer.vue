@@ -51,6 +51,7 @@
             <ul>
               <li v-for="key in Object.keys(entry.summary.additional)">{{key}}: {{entry.summary.additional[key]}}</li>
             </ul>
+            <annotation v-if="annotationsShowing === entry" v-for="annotation in entry.annotations" :key="JSON.stringify(annotation)" :annotation="annotation"></annotation>
           </div>
           <div class="card-action">
             <a v-for="rel in Object.keys(entry.summary.relationships)" @click="goto(entry.summary.relationships[rel])" >Go to {{rel}}</a>
@@ -79,8 +80,9 @@
       </div>
     </div>
     <context-menu id="context-menu" ref="ctxMenu" @ctx-open="onCtxOpen">
-      <li class="ctx-item">Add Annotation</li>
-      <li class="ctx-item">Show Annotations</li>
+      <li class="ctx-item" @click="annotate">Add Annotation</li>
+      <li v-if="annotationsShowing == ctxMenuTarget" class="ctx-item" @click="hideAnnotations">Hide Annotations</li>
+      <li v-else class="ctx-item" @click="showAnnotations">Show Annotations</li>
       <li class="ctx-item" @click="edit">Edit</li>
     </context-menu>
   </div>
@@ -89,6 +91,8 @@
 <script>
 import vSelect from 'vue-select'
 import contextMenu from 'vue-context-menu'
+import Annotation from './Annotation.vue'
+
 let hash = require('blueimp-md5')
 
 let defaultSettings = {
@@ -114,11 +118,13 @@ function copyToClipboard (text) {
 export default {
   components: {
     vSelect,
-    contextMenu
+    contextMenu,
+    Annotation
   },
   data () {
     return {
       entries: require('./FAKEDATA.json'),
+      annotationsShowing: null,
       search: '',
       editing: false,
       showSettings: false,
@@ -167,6 +173,16 @@ export default {
       this.title = this.ctxMenuTarget.summary.title
       this.brief = this.ctxMenuTarget.summary.brief
       this.additionalFields = this.ctxMenuTarget.summary.additional
+    },
+    showAnnotations () {
+      this.annotationsShowing = this.ctxMenuTarget
+    },
+    hideAnnotations () {
+      this.annotationsShowing = null
+    },
+    annotate () {
+      this.editing = true
+      this.selectedType = 'Annotation'
     },
     getAdditionalFields () {
       let fields = this.selectedType === 'Tape' ? ['width', 'length'] : ['other field', 'could be anything', 'any number of em too']
@@ -252,6 +268,10 @@ function getURLArgs () {
   bottom: 0;
   right: 0;
   margin: 25px;
+}
+
+blockquote {
+  text-align: left;
 }
 
 .editor {

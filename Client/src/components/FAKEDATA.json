@@ -1,11 +1,24 @@
 [
   {
     "who": "jts",
-    "what": "Tape",
+    "what": "Reel",
     "when": "Now",
     "GUID": "5676433dfg4wd",
+    "annotations": [{
+      "user": "jts",
+      "text": "hi",
+      "annotations": [{
+        "user": "G",
+        "text": "Hello",
+        "annotations": [{
+          "user": "jts",
+          "text": "Hello World"
+          }]
+        }]
+      },
+    {"user": "jas", "text": "Goodbye"}],
     "summary": {
-      "title": "Tape numero uno",
+      "title": "Reel numero uno",
       "brief": "This is the first tape ever",
       "relationships": {
         "reel": "fkuskshkr56"
