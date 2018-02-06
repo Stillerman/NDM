@@ -1,5 +1,5 @@
 # NDM
-Navigational Data Managment
+Navigational Data Management
 
 A set of tools for expressing and navigating relationships in scientific data.
 
