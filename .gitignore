@@ -38,3 +38,5 @@ dist
 
 # secrets
 auth0-variables.js
+
+orientdb/config/orientdb-server-config.xml

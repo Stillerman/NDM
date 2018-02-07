@@ -21,3 +21,5 @@ services:
        ports:
          - 2424:2424
          - 2480:2480
+       entrypoint:
+         - /orientdb/entry.sh
