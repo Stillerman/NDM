@@ -39,4 +39,7 @@ dist
 # secrets
 auth0-variables.js
 
+# runtime data files
 orientdb/config/orientdb-server-config.xml
+Proxy/db/user.db
+orientdb/databases/
