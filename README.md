@@ -7,9 +7,11 @@ The system is currently 3 dockers which talk to each other and expose a public
 facing web server on port 80.
 
 To begin
-
- docker-compose up
-
+'''
+rm -rf orientdb/databases/Magnet_orders
+rm -rf Proxy/db/user.db
+docker-compose up
+'''
 If things are working you should be able to then browse to localhost:80/some-thing
 
 Logins are handled by auth0 https://auth0.com/  
@@ -22,4 +24,11 @@ export const AUTH_CONFIG = {
   callbackUrl: 'http://localhost:8080/callback/',
   apiUrl: 'API_IDENTIFIER'
 }
-''' 
+'''
+Browse to http://localhost and you should see the initial page.
+
+Click login (upper right) and authenticate
+
+Then browse to http://localhost/users
+- you should see your details
+ 
