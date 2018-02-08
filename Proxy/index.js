@@ -89,10 +89,10 @@ var server = http.createServer(function(req, res) {
                                 rp({
                                         auth: {
                                             'user': 'Proxy',
-                                            'password': 'serverpw'
+                                            'password': process.env.ORIENTDB_PROXY_PASSWORD
                                         },
                                         method: 'POST',
-                                        url: "http://orientdb:2480/function/Magnet_orders/AddUser/" + 
+                                        url: "http://orientdb:2480/function/"+process.env.ORIENTDB_NAME+"/AddUser/" + 
                                               bd.given_name.trim() + "/" + 
                                               bd.family_name.trim() + "/" + 
                                               bd.email.trim() + 

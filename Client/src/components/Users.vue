@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     refresh () {
-      axios.get('http://localhost:5050/query/Magnet_orders/sql/select from Person', {
+      axios.get('http://localhost:5050/query/' + process.env.ORIENTDB_NAME + '/sql/select from Person', {
         headers: {
           Authorization: 'Bearer ' + localStorage.access_token
         }
