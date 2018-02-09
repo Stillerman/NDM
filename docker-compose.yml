@@ -2,7 +2,10 @@ version: '3'
 
 services:
     web:
-       build: './Client'
+       build:
+         context: './Client'
+         args:
+           - dbname=${ORIENT_DBNAME}
        ports: 
          - 80:80
     proxy: 

@@ -1,5 +1,7 @@
 FROM nginx
 
+ARG dbname
+
 # replace shell with bash so we can source files
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
@@ -29,6 +31,7 @@ ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 WORKDIR /usr/src/app
 COPY . .
+RUN echo "export const dbname = '$dbname'" > src/dbname.js
 
 RUN npm install --production-only
 RUN ls
