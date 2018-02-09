@@ -36,7 +36,7 @@ Command to create class:
 http://<server>:[<port>]/class/<database>/<class-name>
 
 eg:
-POST http://localhost:2480/Magnet_orders/new_class
+POST http://localhost:2480/class/Magnet_orders/new_class
 
 but cannot extend.
 
@@ -87,9 +87,10 @@ Args: host, json payload
 
 
 //Required modules
-var request = require('request');
+var request = require('request'); //
 var fs = require('fs');
 var Ajv = require('ajv');
+
 
 //Get JSON payload from file. This block could be replaced by an argument
 var data; //holds json payload from file
@@ -238,8 +239,10 @@ const alterPropertyTemplate =
       ]
     }
 
-makeclassTemplate.operations[0].command+=(classname+extendsclass+abstractclass);
-console.log('makeclass :',makeclassTemplate);
+var makeclass=JSON.parse(JSON.stringify(makeclassTemplate));
+
+makeclass.operations[0].command+=(classname+extendsclass+abstractclass);
+console.log('makeclass :',makeclass);
 
 
 var linkTemplate = 
@@ -272,7 +275,7 @@ for (var key in obj) {  //fields
 		var defstring=searchstr.substring(fdef);
 	    } else {var defstring=searchstr;}
 	    //console.log("       "+defstring+' should be in database schema',properties);
-	    properties[key]={"propertyType": defstring}
+	    properties[key]={"propertyType": defstring.toUpperCase()};
 	    break;
 	    
 	case "type":  //add cases for handling specific to types
@@ -295,15 +298,15 @@ for (var key in obj) {  //fields
 	    //console.log(' got here for defaultvalue',obj[key][propertykey],properties[key].propertyType);
 	    if (properties[key].propertyType==="LINK"){  //fill in linkedClass from defaultvalue
 		properties[key].linkedClass = obj[key][propertykey]["linked-class"];
-		if (obj[key][propertykey]["rid"]) {
-		    //console.log('  has rid ',obj[key][propertykey]["rid"]);
+		if (obj[key][propertykey]["@rid"]) {
+		    //console.log('  has rid ',obj[key][propertykey]["@rid"]);
 		    if (alterproperties==="")
 		    {
 			alterproperties=JSON.parse(JSON.stringify(alterPropertyTemplate)); //cheap deep copy
-			alterproperties.operations[0].command+= classname+"."+key+" DEFAULT " + obj[key][propertykey]["rid"];
+			alterproperties.operations[0].command+= classname+"."+key+" DEFAULT " + obj[key][propertykey]["@rid"];
 		    } else {
 			alterproperties.operations.push(JSON.parse(JSON.stringify(alterPropertyTemplate)).operations[0]);
-			alterproperties.operations[alterproperties.operations.length-1].command+= classname+"."+key+" DEFAULT " + obj[key][propertykey]["rid"];
+			alterproperties.operations[alterproperties.operations.length-1].command+= classname+"."+key+" DEFAULT " + obj[key][propertykey]["@rid"];
 		    }
 		}
 		
@@ -343,11 +346,16 @@ console.log('alterproperties : ', JSON.stringify(alterproperties,null,2));
 
 var username = 'admin';
 var password = 'admin';
+var database = 'Magnet_orders';
 var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");
-var url = "http://localhost:2480/query/Magnet_orders/sql/SELECT from Person"
+var baseurl = "http://localhost:2480/";
+var url = baseurl+"query/"+database+"/sql/SELECT from Person";
 //var newclass = <<content from arg>>;
+var makeclassURL = baseurl+"batch/"+database+"/";
+var makepropertiesURL =baseurl+"property/"+database+"/"+classname;
+var alterpropertiesURL =baseurl+"batch/"+database+"/";
 
-
+/*
 request.get( {url : url,
 	      headers : {"Authorization": auth, "content-type":"application/json"}},
 	     function (error, response, body) {
@@ -355,5 +363,65 @@ request.get( {url : url,
 		     //console.log(JSON.stringify(JSON.parse(body),null,3));
 		 }
 	     });
+
+*/
+
+
+// chain these three requests
+var options = {
+    method: 'post',
+    body: makeclass,
+    json: true,
+    headers : {"Authorization": auth, "content-type":"application/json"},
+    url: makeclassURL
+}
+request ( options, function (err, res, body) {
+    if (err) {
+	console.error('error posting json: ', err)
+	throw err
+    }
+    var headers = res.headers
+    var statusCode = res.statusCode
+    console.log('headers: ', headers);
+    console.log('url: ', options.url);
+    console.log('statusCode: ', statusCode);
+    console.log('body: ', body);
+    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+
+
+    options.body=properties;
+    options.url=makepropertiesURL;
+    console.log('options body', options.body);
+    request ( options, function (err, res, body) {
+	if (err) {
+	    console.error('error posting json: ', err)
+	    throw err
+	}
+	var headers = res.headers
+	var statusCode = res.statusCode
+	console.log('headers: ', headers);
+	console.log('url: ', options.url);
+	console.log('statusCode: ', statusCode);
+	console.log('body: ', body);
+	console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+	
+	options.body=alterproperties;
+	options.url=alterpropertiesURL;
+	request ( options, function (err, res, body) {
+	    if (err) {
+		console.error('error posting json: ', err)
+		throw err
+	    }
+	    var headers = res.headers
+	    var statusCode = res.statusCode
+	    console.log('headers: ', headers);
+	    console.log('url: ', options.url);
+	    console.log('statusCode: ', statusCode);
+	    console.log('body: ', body);
+	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+	}) //unwind
+    }) //unwind
+}) //unwind
+
 //json: true,body:requestedData
 //requestedData created by parsing arg
