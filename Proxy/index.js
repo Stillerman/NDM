@@ -89,15 +89,10 @@ var server = http.createServer(function(req, res) {
                                 rp({
                                         auth: {
                                             'user': 'Proxy',
-                                            'password': 'serverpw'
+                                            'password': process.env.ORIENTDB_PROXY_PASSWORD
                                         },
                                         method: 'POST',
-                                        url: "http://orientdb:2480/function/Magnet_orders/AddUser/" + 
-                                              bd.given_name.trim() + "/" + 
-                                              bd.family_name.trim() + "/" + 
-                                              bd.email.trim() + 
-                                              "/empty/empty/" + password,
-
+                                        url: getAddUserUrl(bd, password) 
                                     })
                                     .then((body) => {
                                         bdd = JSON.parse(body);
@@ -167,5 +162,10 @@ var server = http.createServer(function(req, res) {
 
 });
 
+function getAddUserUrl (bd, password) {
+  if(!(bd.given_name || bd.family_name)) bd.given_name = "none"
+  if(!bd.email) bd.email = bd.nickname + "@psfc.mit.edu"
+  return `http://orientdb:2480/function/${process.env.ORIENTDB_NAME}/AddUser/${bd.given_name.trim()}/${bd.family_name.trim()}/${bd.email.trim()}/empty/empty/${password}`
+}
 console.log("listening on port 5050");
 server.listen(5050);
