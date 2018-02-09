@@ -2,18 +2,18 @@
 CREATE DATABASE plocal:/orientdb/databases/Magnet_orders root ankmyx;
 CREATE CLASS Person EXTENDS V;
 create property Person.firstname STRING;
-create property Person. lastname STRING;
+create property Person.lastname STRING;
 create property Person.email STRING;
 create property Person.phone STRING;
 create property Person.comment STRING;
 create property Person.dbname STRING;
 
 alter property Person.firstname MANDATORY true;
-alter property Person. lastname MANDATORY true;
+alter property Person.lastname MANDATORY true;
 alter property Person.email MANDATORY true;
 
 alter property Person.firstname NOTNULL true;
-alter property Person. lastname NOTNULL true;
+alter property Person.lastname NOTNULL true;
 alter property Person.email NOTNULL true;
 
 CREATE USER Proxy IDENTIFIED BY serverpw ROLE admin;
