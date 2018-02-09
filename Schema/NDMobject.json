@@ -37,12 +37,12 @@
 	     "defaultvalue": {"linked-class":"Person","rid":"'getHTTPuser()'"}
 	 },
 	 "creationTime": {
-	     "type": "string",
+	     "type": "STRING",
 	     "format": "date-time",
 	     "defaultvalue": "'sysdate()'"
 	 },
 	 "guid": {
-	     "type": "string",
+	     "type": "STRING",
 	     "defaultvalue" : "'uuid()'",
 	     "dbprop" : "READONLY TRUE"
 	 }

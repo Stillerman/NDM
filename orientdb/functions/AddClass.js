@@ -346,7 +346,7 @@ console.log('alterproperties : ', JSON.stringify(alterproperties,null,2));
 
 var username = 'admin';
 var password = 'admin';
-var database = 'Magnet_orders';
+var database = 'ndm';
 var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");
 var baseurl = "http://localhost:2480/";
 var url = baseurl+"query/"+database+"/sql/SELECT from Person";
