@@ -11,6 +11,7 @@
 
 <script>
 import axios from 'axios'
+import {dbname} from '../dbname.js'
 
 export default {
   data () {
@@ -23,7 +24,7 @@ export default {
   },
   methods: {
     refresh () {
-      axios.get('http://localhost:5050/query/Magnet_orders/sql/select from Person', {
+      axios.get(`http://localhost:5050/query/${dbname}/sql/select from Person`, {
         headers: {
           Authorization: 'Bearer ' + localStorage.access_token
         }

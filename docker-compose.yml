@@ -2,7 +2,10 @@ version: '3'
 
 services:
     web:
-       build: './Client'
+       build:
+         context: './Client'
+         args:
+           - dbname=${ORIENT_DBNAME}
        ports: 
          - 80:80
     proxy: 
@@ -11,6 +14,9 @@ services:
          - ./Proxy/db:/usr/src/app/db
        ports:
          - 5050:5050
+       environment:
+           - ORIENTDB_NAME=${ORIENT_DBNAME}
+           - ORIENTDB_PROXY_PASSWORD=${PROXY_USER_PASSWORD}
     orientdb:
        build: './orientdb'
        volumes:
@@ -19,9 +25,12 @@ services:
            - ./orientdb/backup:/orientdb/backup
            - ./orientdb/local:/orientdb/local
        environment:
-           - ORIENTDB_ROOT_PASSWORD=ankmyx
+           - ORIENTDB_NAME=${ORIENT_DBNAME}
+           - ORIENTDB_ROOT_PASSWORD=${ORIENT_ROOT_PASSWORD}
+           - ORIENTDB_PROXY_PASSWORD=${PROXY_USER_PASSWORD}
        ports:
          - 2424:2424
          - 2480:2480
        entrypoint:
          - /orientdb/entry.sh
+
