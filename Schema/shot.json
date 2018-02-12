@@ -1,7 +1,7 @@
-{    "id": "http://ndm.mit.edu/ndm/schemas/tape",
+{    "id": "http://ndm.mit.edu/ndm/schemas/shot",
      "$schema": "http://json-schema.org/draft-06/schema#",
-     "title": "tape",
-     "description": "HTS Tape class schema.",
+     "title": "shot",
+     "description": "HTS Shot schema",
      "definitions": {
 	 "details":
 	 {
@@ -22,26 +22,22 @@
      "allOf": [
 	 { "$ref": "_NDMobject" } ],
      "properties": {
-         "name": {
-             "type": "STRING",
-             "defaultvalue":"Bent"
-         },
-	 "reel": {
+	 "operators": {
 	     "$ref": "_NDMobject#/definitions/LINK",
-	     "defaultvalue": {"linked-class":"reel"}
+	     "defaultvalue": {"linked-class":"Person"}
 	 },
-	 "processingConditions": {
-	     "type": "STRING",
-	     "defaultvalue":"Bent"
+	 "measurementTemperature": {
+	     "type": "FLOAT",
+	     "defaultvalue":"77.0"
 	 },	 
-         "startPosition": {
-             "type": "INTEGER",
-             "defaultvalue":"42"
+         "measurementAppliedField": {
+             "type": "FLOAT",
+             "defaultvalue":"0.0"
          },
-         "endPosition": {
-             "type": "INTEGER",
-             "defaultvalue":"42"
+         "measurementAngle": {
+             "type": "FLOAT",
+             "defaultvalue":"0.0"
          }
      },
-     "required": ["name"]
+     "required": ["measurementTemperature"]
 }

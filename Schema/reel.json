@@ -41,11 +41,7 @@
          "endPosition": {
              "type": "INTEGER",
              "defaultvalue":"42"
-         },      
-	 "notes": {
-	     "$ref": "_NDMobject#/definitions/LINK",
-	     "defaultvalue": {"linked-class":"annoation"}
-	 }
+         }      
 
      },
      "required": ["manufacturer"]

@@ -22,17 +22,17 @@
      "allOf": [
 	 { "$ref": "_NDMobject" } ],
      "properties": {
-	 "target": {
-	     "$ref": "_NDMobject#/definitions/LINK",
-	     "defaultvalue": {"linked-class":"_NDMOBJECT"}
-	 },
 	 "summary": {
-	     "type": "string",
+	     "type": "STRING",
 	     "defaultvalue":"'Brief summary of this annoation'"
 	 },
 	 "body": {
-	     "type": "string",
+	     "type": "STRING",
 	     "defaultvalue":"'The content of this annoation'"
-	 }	 
+	 },
+         "target": {
+             "$ref": "_NDMobject#/definitions/LINK",
+             "defaultvalue": {"linked-class":"_NDMOBJECT"}
+         }	 
      }
 }

@@ -34,11 +34,7 @@
 	     "type": "STRING",
 	     "format": "date-time",
 	     "defaultvalue": "'sysdate()'"
-	 },
-         "notes": {
-             "$ref": "_NDMobject#/definitions/LINK",
-             "defaultvalue": {"linked-class":"annoation"}
-         }
+	 }
      },
      "required": ["runDate"]
 }
