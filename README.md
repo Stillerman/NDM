@@ -24,8 +24,7 @@ to begin
         login admin/admin
     click schema tab
 ```
-To begin
-```
+
 If things are working you should be able to then browse to localhost:80/some-thing
 
 Logins are handled by auth0 https://auth0.com/  
