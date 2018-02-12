@@ -6,11 +6,25 @@ A set of tools for expressing and navigating relationships in scientific data.
 The system is currently 3 dockers which talk to each other and expose a public
 facing web server on port 80.
 
-To begin
+to begin
 ```
-rm -rf orientdb/databases/Magnet_orders
-rm -rf Proxy/db/user.db
-docker-compose up
+    rm -rf Proxy/db/user.db  orientdb/databases/*
+    docker-compose build --force-rm
+    docker-compose up
+    browse to localhost
+    click login
+    provide psfc credentials
+        (say yes for profile access)
+    browse to local/host/users
+
+    cd orientdb/functions/
+    npm install --save
+    ./loadSchema.sh
+    Browse to localhost:2480
+        login admin/admin
+    click schema tab
+```
+To begin
 ```
 If things are working you should be able to then browse to localhost:80/some-thing
 
@@ -26,10 +40,3 @@ export const AUTH_CONFIG = {
   apiUrl: 'API_IDENTIFIER'
 }
 ```
-Browse to http://localhost and you should see the initial page.
-
-Click login (upper right) and authenticate
-
-Then browse to http://localhost/users
-- you should see your details
- 
