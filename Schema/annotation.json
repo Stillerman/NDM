@@ -1,0 +1,38 @@
+{    "id": "http://ndm.mit.edu/magnet_orders/schemas/annotation",
+     "$schema": "http://json-schema.org/draft-06/schema#",
+     "title": "annotation",
+     "description": "A general annoation class schema.",
+     "definitions": {
+	 "details":
+	 {
+	     "type": "object",
+	     "description": "An internal reused definition. Legal for json schema but not supported presently from orientdb injest. Will require scanning definitions for new classes and creating.",
+	     "properties": {
+		 "detail1": {
+		     "description" : "An ID number", 
+		     "type": "integer"
+		 },
+		 "detail2": { "type": "string", "format":"date-time"},
+		 "detail3": { "type": "string"}
+	     }
+	 }
+
+     },
+     "type": "object",
+     "allOf": [
+	 { "$ref": "_NDMobject" } ],
+     "properties": {
+	 "target": {
+	     "$ref": "_NDMobject#/definitions/LINK",
+	     "defaultvalue": {"linked-class":"_NDMOBJECT"}
+	 },
+	 "summary": {
+	     "type": "string",
+	     "defaultvalue":"'Brief summary of this annoation'"
+	 },
+	 "body": {
+	     "type": "string",
+	     "defaultvalue":"'The content of this annoation'"
+	 }	 
+     }
+}

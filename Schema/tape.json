@@ -1,7 +1,7 @@
-{    "id": "http://ndm.mit.edu/ndm/schemas/reel",
+{    "id": "http://ndm.mit.edu/ndm/schemas/tape",
      "$schema": "http://json-schema.org/draft-06/schema#",
-     "title": "reel",
-     "description": "HTS Tape Reel class schema.",
+     "title": "tape",
+     "description": "HTS Tape class schema.",
      "definitions": {
 	 "details":
 	 {
@@ -22,18 +22,18 @@
      "allOf": [
 	 { "$ref": "_NDMobject" } ],
      "properties": {
-	 "manufacturer": {
-	     "type": "STRING",
-	     "defaultvalue":"'Super Power'"
-	 },
-	 "manufacturerDesignation": {
-	     "type": "STRING",
-	     "defaultvalue":"blue"
-	 },	 
-         "datePurchased": {
+         "name": {
              "type": "STRING",
-             "defaultvalue":"'sysdate()'"
+             "defaultvalue":"Bent"
          },
+	 "reel": {
+	     "$ref": "_NDMobject#/definitions/LINK",
+	     "defaultvalue": {"linked-class":"reel"}
+	 },
+	 "processingConditions": {
+	     "type": "STRING",
+	     "defaultvalue":"Bent"
+	 },	 
          "startPosition": {
              "type": "INTEGER",
              "defaultvalue":"42"
@@ -41,12 +41,11 @@
          "endPosition": {
              "type": "INTEGER",
              "defaultvalue":"42"
-         },      
-	 "notes": {
-	     "$ref": "_NDMobject#/definitions/LINK",
-	     "defaultvalue": {"linked-class":"annoation"}
-	 }
-
+         },
+         "notes": {
+             "$ref": "_NDMobject#/definitions/LINK",
+             "defaultvalue": {"linked-class":"annoation"}
+         }      
      },
-     "required": ["manufacturer"]
+     "required": ["name"]
 }
