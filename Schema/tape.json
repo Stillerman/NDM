@@ -2,22 +2,7 @@
      "$schema": "http://json-schema.org/draft-06/schema#",
      "title": "tape",
      "description": "HTS Tape class schema.",
-     "definitions": {
-	 "details":
-	 {
-	     "type": "object",
-	     "description": "An internal reused definition. Legal for json schema but not supported presently from orientdb injest. Will require scanning definitions for new classes and creating.",
-	     "properties": {
-		 "detail1": {
-		     "description" : "An ID number", 
-		     "type": "integer"
-		 },
-		 "detail2": { "type": "STRING", "format":"date-time"},
-		 "detail3": { "type": "STRING"}
-	     }
-	 }
-
-     },
+     "definitions": {},
      "type": "object",
      "allOf": [
 	 { "$ref": "_NDMobject" } ],
