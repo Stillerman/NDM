@@ -1,34 +1,49 @@
-{    "id": "http://ndm.mit.edu/magnet_orders/schemas/externalReference",
-     "$schema": "http://json-schema.org/draft-06/schema#",
-     "title": "externalReference",
-     "description": "A general external reference class schema.",
+{    "id": "http://ndm.mit.edu/magnet_orders/schemas/_ExternalReference",
+     "$schema": "http://json-schema.org/draft-06/schema#", 
+     "title": "_ExternalReference",
+     "description": "Abstract class for external references",
+     "type": "object",
      "definitions": {
-	 "details":
-	 {
+	 "LINK": {
+	     "description": "link with link type pointing to record by rid. Internal to ODB.",
 	     "type": "object",
-	     "description": "An internal reused definition. Legal for json schema but not supported presently from orientdb injest. Will require scanning definitions for new classes and creating.",
 	     "properties": {
-		 "detail1": {
-		     "description" : "An ID number", 
-		     "type": "integer"
-		 },
-		 "detail2": { "type": "string", "format":"date-time"},
-		 "detail3": { "type": "string"}
+		 "linked-class": {"type": "string"},
+		 "rid": {"type": "string"}
+	     },
+	     "required": ["linked-class", "rid"]
+	 },
+	 "V": {
+	     "description": "Vertex base class.  Internal to ODB.",
+	     "type": "object",
+	     "properties": {
+		 "name": {"type": "string"},
+		 "rid":  {"type": "string"}
+	     }
+	 },
+	 "ORestricted": {
+	     "description": "Role management base class. Internal to ODB.",
+	     "type": "object",
+	     "properties": {
+		 "name": {"type": "string"},
+		 "type": {"type": "string"}
 	     }
 	 }
-
      },
-     "type": "object",
-     "allOf": [
-	 { "$ref": "_NDMobject" } ],
+     "allOf": [{ "$ref": "#/definitions/_NDMobject" }],
      "properties": {
-	 "name": {
-	     "type": "STRING",
-	     "defaultvalue":"'Brief summary of this annoation'"
-	 },
-	 "URI": {
-	     "type": "STRING",
-	     "defaultvalue":"'The content of this annoation'"
-	 }
-     }
+         "name": {
+             "type": "STRING",
+             "defaultvalue":"object-name"
+         },
+         "description": {
+             "type": "STRING",
+             "defaultvalue":"'External Object Description'"
+         },
+         "URI": {
+             "type": "STRING",
+             "defaultvalue":"protocol://network.spec/object/spec"
+         }
+     },
+     "required": ["URI"]
 }
