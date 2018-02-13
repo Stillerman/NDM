@@ -1,0 +1,34 @@
+{    "id": "http://ndm.mit.edu/magnet_orders/schemas/externalReference",
+     "$schema": "http://json-schema.org/draft-06/schema#",
+     "title": "externalReference",
+     "description": "A general external reference class schema.",
+     "definitions": {
+	 "details":
+	 {
+	     "type": "object",
+	     "description": "An internal reused definition. Legal for json schema but not supported presently from orientdb injest. Will require scanning definitions for new classes and creating.",
+	     "properties": {
+		 "detail1": {
+		     "description" : "An ID number", 
+		     "type": "integer"
+		 },
+		 "detail2": { "type": "string", "format":"date-time"},
+		 "detail3": { "type": "string"}
+	     }
+	 }
+
+     },
+     "type": "object",
+     "allOf": [
+	 { "$ref": "_NDMobject" } ],
+     "properties": {
+	 "name": {
+	     "type": "STRING",
+	     "defaultvalue":"'Brief summary of this annoation'"
+	 },
+	 "URI": {
+	     "type": "STRING",
+	     "defaultvalue":"'The content of this annoation'"
+	 }
+     }
+}

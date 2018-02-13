@@ -41,7 +41,12 @@
          "endPosition": {
              "type": "INTEGER",
              "defaultvalue":"42"
+         },
+         "tapestarData" : {
+             "$ref": "_NDMobject#/definitions/LINK",
+             "defaultvalue": {"linked-class":"externalReference"}
          }
+
      },
      "required": ["name"]
 }
