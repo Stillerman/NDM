@@ -13,6 +13,11 @@
 	     },
 	     "required": ["linked-class", "rid"]
 	 },
+         "LINKLIST": {
+	     "description": "An ordered list of links for 1:n relations.",
+	     "type": "array"
+	     }
+	 },	     
 	 "V": {
 	     "description": "Vertex base class.  Internal to ODB.",
 	     "type": "object",
