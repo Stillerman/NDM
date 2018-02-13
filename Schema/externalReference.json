@@ -3,34 +3,8 @@
      "title": "_ExternalReference",
      "description": "Abstract class for external references",
      "type": "object",
-     "definitions": {
-	 "LINK": {
-	     "description": "link with link type pointing to record by rid. Internal to ODB.",
-	     "type": "object",
-	     "properties": {
-		 "linked-class": {"type": "string"},
-		 "rid": {"type": "string"}
-	     },
-	     "required": ["linked-class", "rid"]
-	 },
-	 "V": {
-	     "description": "Vertex base class.  Internal to ODB.",
-	     "type": "object",
-	     "properties": {
-		 "name": {"type": "string"},
-		 "rid":  {"type": "string"}
-	     }
-	 },
-	 "ORestricted": {
-	     "description": "Role management base class. Internal to ODB.",
-	     "type": "object",
-	     "properties": {
-		 "name": {"type": "string"},
-		 "type": {"type": "string"}
-	     }
-	 }
-     },
-     "allOf": [{ "$ref": "#/definitions/_NDMobject" }],
+     "definitions": {},
+     "allOf": [{ "$ref": "_NDMobject" }],
      "properties": {
          "name": {
              "type": "STRING",
