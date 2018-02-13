@@ -20,13 +20,8 @@
      },
      "type": "object",
      "allOf": [
-	 { "$ref": "_NDMobject" },
          { "$ref": "_ExternalReference"} ],
      "properties": {
-	 "operators": {
-	     "$ref": "_NDMobject#/definitions/LINK",
-	     "defaultvalue": {"linked-class":"Person"}
-	 },
 	 "tree": {
 	     "type": "STRING",
 	     "defaultvalue":"hts"
