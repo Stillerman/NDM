@@ -1,0 +1,51 @@
+{    "id": "http://ndm.mit.edu/ndm/schemas/reel",
+     "$schema": "http://json-schema.org/draft-06/schema#",
+     "title": "reel",
+     "description": "HTS Tape Reel class schema.",
+     "definitions": {
+	 "details":
+	 {
+	     "type": "object",
+	     "description": "An internal reused definition. Legal for json schema but not supported presently from orientdb injest. Will require scanning definitions for new classes and creating.",
+	     "properties": {
+		 "detail1": {
+		     "description" : "An ID number", 
+		     "type": "integer"
+		 },
+		 "detail2": { "type": "STRING", "format":"date-time"},
+		 "detail3": { "type": "STRING"}
+	     }
+	 }
+
+     },
+     "type": "object",
+     "allOf": [
+	 { "$ref": "_NDMobject" } ],
+     "properties": {
+	 "manufacturer": {
+	     "type": "STRING",
+	     "defaultvalue":"'Super Power'"
+	 },
+	 "manufacturerDesignation": {
+	     "type": "STRING",
+	     "defaultvalue":"blue"
+	 },	 
+         "datePurchased": {
+             "type": "STRING",
+             "defaultvalue":"'sysdate()'"
+         },
+         "startPosition": {
+             "type": "INTEGER",
+             "defaultvalue":"42"
+         },
+         "endPosition": {
+             "type": "INTEGER",
+             "defaultvalue":"42"
+         },
+         "tapestarData" : {
+             "$ref": "_NDMobject#/definitions/LINK",
+             "defaultvalue": {"linked-class":"externalReference"}
+         }      
+     },
+     "required": ["manufacturer"]
+}

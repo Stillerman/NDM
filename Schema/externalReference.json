@@ -1,0 +1,49 @@
+{    "id": "http://ndm.mit.edu/magnet_orders/schemas/_ExternalReference",
+     "$schema": "http://json-schema.org/draft-06/schema#", 
+     "title": "_ExternalReference",
+     "description": "Abstract class for external references",
+     "type": "object",
+     "definitions": {
+	 "LINK": {
+	     "description": "link with link type pointing to record by rid. Internal to ODB.",
+	     "type": "object",
+	     "properties": {
+		 "linked-class": {"type": "string"},
+		 "rid": {"type": "string"}
+	     },
+	     "required": ["linked-class", "rid"]
+	 },
+	 "V": {
+	     "description": "Vertex base class.  Internal to ODB.",
+	     "type": "object",
+	     "properties": {
+		 "name": {"type": "string"},
+		 "rid":  {"type": "string"}
+	     }
+	 },
+	 "ORestricted": {
+	     "description": "Role management base class. Internal to ODB.",
+	     "type": "object",
+	     "properties": {
+		 "name": {"type": "string"},
+		 "type": {"type": "string"}
+	     }
+	 }
+     },
+     "allOf": [{ "$ref": "#/definitions/_NDMobject" }],
+     "properties": {
+         "name": {
+             "type": "STRING",
+             "defaultvalue":"object-name"
+         },
+         "description": {
+             "type": "STRING",
+             "defaultvalue":"'External Object Description'"
+         },
+         "URI": {
+             "type": "STRING",
+             "defaultvalue":"protocol://network.spec/object/spec"
+         }
+     },
+     "required": ["URI"]
+}

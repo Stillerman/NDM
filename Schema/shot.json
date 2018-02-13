@@ -1,0 +1,43 @@
+{    "id": "http://ndm.mit.edu/ndm/schemas/shot",
+     "$schema": "http://json-schema.org/draft-06/schema#",
+     "title": "shot",
+     "description": "HTS Shot schema",
+     "definitions": {
+	 "details":
+	 {
+	     "type": "object",
+	     "description": "An internal reused definition. Legal for json schema but not supported presently from orientdb injest. Will require scanning definitions for new classes and creating.",
+	     "properties": {
+		 "detail1": {
+		     "description" : "An ID number", 
+		     "type": "integer"
+		 },
+		 "detail2": { "type": "STRING", "format":"date-time"},
+		 "detail3": { "type": "STRING"}
+	     }
+	 }
+
+     },
+     "type": "object",
+     "allOf": [
+	 { "$ref": "_NDMobject" } ],
+     "properties": {
+	 "operators": {
+	     "$ref": "_NDMobject#/definitions/LINK",
+	     "defaultvalue": {"linked-class":"Person"}
+	 },
+	 "measurementTemperature": {
+	     "type": "FLOAT",
+	     "defaultvalue":"77.0"
+	 },	 
+         "measurementAppliedField": {
+             "type": "FLOAT",
+             "defaultvalue":"0.0"
+         },
+         "measurementAngle": {
+             "type": "FLOAT",
+             "defaultvalue":"0.0"
+         }
+     },
+     "required": ["measurementTemperature"]
+}
