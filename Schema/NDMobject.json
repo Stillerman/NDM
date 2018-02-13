@@ -8,8 +8,8 @@
 	     "description": "link with link type pointing to record by rid. Internal to ODB.",
 	     "type": "object",
 	     "properties": {
-		 "linked-class": {"type": "string"},
-		 "rid": {"type": "string"}
+		 "linked-class": {"type": "STRING"},
+		 "@rid": {"type": "STRING"}
 	     },
 	     "required": ["linked-class", "rid"]
 	 },
@@ -17,16 +17,26 @@
 	     "description": "Vertex base class.  Internal to ODB.",
 	     "type": "object",
 	     "properties": {
-		 "name": {"type": "string"},
-		 "rid":  {"type": "string"}
+		 "@rid": {"type": "STRING"}
+	     }
+	 },
+	 "E": {
+	     "description": "Edge base class.  Internal to ODB.",
+	     "type": "object",
+	     "properties": {
+		 "@rid": {"type": "STRING"},
+		 "out":  {"type": "STRING"},
+		 "in":   {"type": "STRING"}
 	     }
 	 },
 	 "ORestricted": {
 	     "description": "Role management base class. Internal to ODB.",
 	     "type": "object",
 	     "properties": {
-		 "name": {"type": "string"},
-		 "type": {"type": "string"}
+		 "_allow":       {"type": "array","items":{"type":"STRING"}},
+		 "_allowDelete": {"type": "array","items":{"type":"STRING"}},
+		 "_allowRead":   {"type": "array","items":{"type":"STRING"}},
+		 "_allowUpdate": {"type": "array","items":{"type":"STRING"}}
 	     }
 	 }
      },
@@ -34,7 +44,7 @@
      "properties": {
 	 "createdBy": {
 	     "$ref": "#/definitions/LINK",
-	     "defaultvalue": {"linked-class":"Person","rid":"'getHTTPuser()'"}
+	     "defaultvalue": {"linked-class":"Person","rid":"'getUser()'"}
 	 },
 	 "creationTime": {
 	     "type": "STRING",

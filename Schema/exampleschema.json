@@ -12,8 +12,8 @@
 		     "description" : "An ID number", 
 		     "type": "integer"
 		 },
-		 "detail2": { "type": "string", "format":"date-time"},
-		 "detail3": { "type": "string"}
+		 "detail2": { "type": "STRING", "format":"date-time"},
+		 "detail3": { "type": "STRING"}
 	     }
 	 }
 
@@ -28,11 +28,11 @@
 	     "defaultvalue": {"linked-class":"OtherThing"}
 	 },
 	 "color": {
-	     "type": "string",
+	     "type": "STRING",
 	     "defaultvalue":"red"
 	 },
 	 "color2": {
-	     "type": "string",
+	     "type": "STRING",
 	     "defaultvalue":"blue"
 	 },	 
 	 "details": {
