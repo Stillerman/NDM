@@ -42,7 +42,7 @@
          },
          "URI": {
              "type": "STRING",
-             "defaultvalue":"protocol://network.spec/object/spec"
+             "defaultvalue":"'protocol://network.spec/object/spec'"
          }
      },
      "required": ["URI"]
