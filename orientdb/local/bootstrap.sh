@@ -14,8 +14,7 @@ CREATE CLASS _NDMOBJECT EXTENDS V ABSTRACT;
 create property _NDMOBJECT.createdBy STRING;
 create property _NDMOBJECT.creationTime STRING;
 create property _NDMOBJECT.guid STRING;
-create property _NDMOBJECT.title STRING;
-create property _NDMOBJECT.brief STRING;
+create property _NDMOBJECT.name STRING;
 
 alter property  _NDMOBJECT.createdBy default 'GetUser()';
 alter property  _NDMOBJECT.creationTime default 'sysdate()';
@@ -26,10 +25,11 @@ CREATE CLASS Person EXTENDS V;
 create property Person.createdBy STRING;
 create property Person.creationTime STRING;
 create property Person.guid STRING;
+create property Person._template STRING;
 
 alter property  Person.creationTime default 'sysdate()';
 alter property  Person.guid default 'uuid()';
-
+alter property  Person._template default '{\"title\":[\"firstname\", \"lastname\"], \"brief\":[\"email\"], \"body\":[\"phone\",\"dbname\"], \"links\":[]}';
 
 create property Person.firstname STRING;
 create property Person.lastname STRING;
