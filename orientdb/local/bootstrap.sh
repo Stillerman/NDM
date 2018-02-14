@@ -14,6 +14,8 @@ CREATE CLASS _NDMOBJECT EXTENDS V ABSTRACT;
 create property _NDMOBJECT.createdBy STRING;
 create property _NDMOBJECT.creationTime STRING;
 create property _NDMOBJECT.guid STRING;
+create property _NDMOBJECT.title STRING;
+create property _NDMOBJECT.brief STRING;
 
 alter property  _NDMOBJECT.createdBy default 'GetUser()';
 alter property  _NDMOBJECT.creationTime default 'sysdate()';
