@@ -6,13 +6,7 @@ A set of tools for expressing and navigating relationships in scientific data.
 The system is currently 3 dockers which talk to each other and expose a public
 facing web server on port 80.
 
-To begin
-```
-rm -rf orientdb/databases/Magnet_orders
-rm -rf Proxy/db/user.db
-docker-compose up
-```
-If things are working you should be able to then browse to localhost:80/some-thing
+To begin:
 
 Logins are handled by auth0 https://auth0.com/  
 and configured by creating your own copy of
@@ -26,6 +20,18 @@ export const AUTH_CONFIG = {
   apiUrl: 'API_IDENTIFIER'
 }
 ```
+
+If you have already run the system, and want to start with a clean database
+
+```
+rm -rf orientdb/databases/Magnet_orders
+rm -rf Proxy/db/user.db
+```
+docker-compose build
+docker-compose up
+```
+If things are working you should be able to then browse to localhost:80/some-thing
+
 Browse to http://localhost and you should see the initial page.
 
 Click login (upper right) and authenticate
