@@ -30,6 +30,13 @@ rm -rf Proxy/db/user.db
 docker-compose build
 docker-compose up
 ```
+
+To load the example HTS magnet testing schema
+```
+cd orientdb/functions
+npm install --save
+./loadSchema.sh
+```
 If things are working you should be able to then browse to localhost:80/some-thing
 
 Browse to http://localhost and you should see the initial page.
@@ -39,3 +46,9 @@ Click login (upper right) and authenticate
 Then browse to http://localhost/users
 - you should see your details
  
+You can inspect the orientdb database by:
+```
+browse to http://localhost:2480
+login in to ndm database as admin/admin
+click the 'schema tag'
+```
