@@ -1,1 +1,1 @@
-export const dbname = "default"
+export const dbname = 'ndm'

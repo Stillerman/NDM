@@ -35,7 +35,7 @@
       <div class="col s12 m12">
         <div class="card blue-grey darken-1" @contextmenu.prevent="$refs.ctxMenu.open($event, entry)">
           <div class="card-content white-text">
-            <span class="card-title">{{entry.summary.title}}</span>
+            <span class="card-title">{{entry['@class']}}</span>
 
             <!-- Dropdown Trigger -->
             <a class='dropdown-button btn' :data-activates='md5(entry)'>Change View</a>
@@ -47,14 +47,13 @@
               <li class="divider"></li>
               <li><a href="#!">Custom View 1</a></li>
             </ul>
-            <p>{{entry.summary.brief}}</p>
             <ul>
-              <li v-for="key in Object.keys(entry.summary.additional)">{{key}}: {{entry.summary.additional[key]}}</li>
+              <li v-for="key in Object.keys(entry)">{{key}}: {{entry[key]}}</li>
             </ul>
             <annotation v-if="annotationsShowing === entry" v-for="annotation in entry.annotations" :key="JSON.stringify(annotation)" :annotation="annotation"></annotation>
           </div>
           <div class="card-action">
-            <a v-for="rel in Object.keys(entry.summary.relationships)" @click="goto(entry.summary.relationships[rel])" >Go to {{rel}}</a>
+            <!--a v-for="rel in Object.keys(entry.summary.relationships)" @click="goto(entry.summary.relationships[rel])" >Go to {{rel}}</a-->
           </div>
         </div>
       </div>
@@ -72,7 +71,7 @@
           <textarea id="textarea1" class="materialize-textarea"></textarea>
           <label for="textarea1">Brief</label>
         </div>
-        <div v-for="field in getAdditionalFields()" class="input-field col s6">
+        <div v-for="field in Object.keys(additionalFields)" class="input-field col s6">
           <input v-model="additionalFields[field]" :id="field" type="text">
           <label :for="field">{{field}}</label>
         </div>
@@ -92,6 +91,8 @@
 import vSelect from 'vue-select'
 import contextMenu from 'vue-context-menu'
 import Annotation from './Annotation.vue'
+import axios from 'axios'
+import {dbname} from '../dbname.js'
 
 let hash = require('blueimp-md5')
 
@@ -152,14 +153,40 @@ export default {
   mounted () {
     this.getSettings()
     this.urlSettings = getURLArgs()
+    this.refresh()
   },
   watch: {
     persistantSettings: {
       handler: 'saveSettings',
       deep: true
+    },
+    selectedType () {
+      this.getAdditionalFields()
     }
   },
   methods: {
+    refresh () {
+      axios.get(`http://localhost:5050/query/${dbname}/sql/select from V`,
+        {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.access_token
+          }
+        })
+        .then(resp => {
+          console.log(resp.data.result)
+          this.entries = resp.data.result
+        })
+
+      axios.get(`http://localhost:5050/query/${dbname}/sql/select from (SELECT expand(classes) from metadata:schema) where abstract == false and not (name like "_%25" or name like "O%25") and name != "V" and name != "E"`,
+        {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.access_token
+          }
+        })
+        .then(resp => {
+          this.types = resp.data.result.map(thing => thing.name)
+        })
+    },
     goto (guid) {
       alert('Going to ' + guid)
     },
@@ -185,12 +212,20 @@ export default {
       this.selectedType = 'Annotation'
     },
     getAdditionalFields () {
-      let fields = this.selectedType === 'Tape' ? ['width', 'length'] : ['other field', 'could be anything', 'any number of em too']
-      fields.forEach(f => {
-        // initiate blank field if not already
-        if (!this.additionalFields.hasOwnProperty(f)) this.$set(this.additionalFields, f, '')
+      axios.get(`http://localhost:5050/query/${dbname}/sql/select expand(properties) from (select expand(classes) from metadata:schema) where name = "${this.selectedType}"`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.access_token
+        }
       })
-      return fields
+      .then(resp => {
+        console.log('RESPONSE', resp)
+        let fields = resp.data.result.map(thing => thing.name)
+        this.additionalFields = {}
+        fields.forEach(f => {
+          // initiate blank field if not already
+          if (!this.additionalFields.hasOwnProperty(f)) this.$set(this.additionalFields, f, '')
+        })
+      })
     },
     getUser () {
       let nameParts = localStorage.name.split(',')
@@ -220,6 +255,8 @@ export default {
       return hash(JSON.stringify(obj))
     },
     submit () {
+      console.log(`http://localhost:5050/query/${dbname}/sql/insert into ${this.selectedType} (${Object.keys(this.additionalFields).join(', ')}) (${Object.keys(this.additionalFields).map(key => this.additionalFields[key])})`)
+      axios.get(`http://localhost:5050/query/${dbname}/sql/insert into ${this.selectedType} (${Object.keys(this.additionalFields).join(', ')}) (${Object.keys(this.additionalFields).map(key => this.additionalFields[key])})`)
       this.entries.push({
         who: this.getUser(),
         what: this.selectedType,
