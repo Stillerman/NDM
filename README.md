@@ -27,6 +27,8 @@ If you have already run the system, and want to start with a clean database
 rm -rf orientdb/databases/Magnet_orders
 rm -rf Proxy/db/user.db
 ```
+Build and run the server
+```
 docker-compose build
 docker-compose up
 ```
