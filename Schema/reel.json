@@ -45,7 +45,7 @@
          "tapestarData" : {
              "$ref": "_NDMobject#/definitions/LINK",
              "defaultvalue": {"linked-class":"externalReference"}
-         }      
+         }    
      },
      "required": ["manufacturer"]
 }

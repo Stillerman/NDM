@@ -25,11 +25,9 @@ CREATE CLASS Person EXTENDS V;
 create property Person.createdBy STRING;
 create property Person.creationTime STRING;
 create property Person.guid STRING;
-create property Person._template STRING;
 
 alter property  Person.creationTime default 'sysdate()';
 alter property  Person.guid default 'uuid()';
-alter property  Person._template default '{\"title\":[\"firstname\", \"lastname\"], \"brief\":[\"email\"], \"body\":[\"phone\",\"dbname\"], \"links\":[]}';
 
 create property Person.firstname STRING;
 create property Person.lastname STRING;
@@ -46,6 +44,11 @@ alter property Person.firstname NOTNULL true;
 alter property Person.lastname NOTNULL true;
 alter property Person.email NOTNULL true;
 
+create class _schemaMetadata extends V;
+create property _schemaMetadata.name STRING;
+create property _schemaMetadata.tempate STRING;
+
+insert into _schemaMetadata (name, template) values ('Person', '{\"title\":[\"firstname\", \"lastname\"], \"brief\":[\"email\"], \"body\":[\"phone\",\"dbname\"], \"links\":[]}');
 CREATE USER Proxy IDENTIFIED BY $ORIENTDB_PROXY_PASSWORD ROLE admin;
 
 CREATE LINK ouser TYPE LINK FROM Person.dbname TO OUser.name;
