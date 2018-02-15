@@ -170,6 +170,7 @@ export default {
       })
         .then(resp => {
           resp.data.result.forEach(meta => {
+            console.log('meta', meta)
             this.schemaMeta[meta.name] = JSON.parse(meta.template)
           })
         })
