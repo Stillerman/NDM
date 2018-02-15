@@ -26,6 +26,10 @@
 	     "$ref": "_NDMobject#/definitions/LINK",
 	     "defaultvalue": {"linked-class":"Person"}
 	 },
+         "shotNumber": {
+             "type": "INTEGER",
+             "defaultvalue":"42"
+         },
 	 "measurementTemperature": {
 	     "type": "FLOAT",
 	     "defaultvalue":"77.0"
