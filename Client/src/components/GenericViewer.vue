@@ -167,10 +167,7 @@ export default {
   },
   methods: {
     refresh () {
-<<<<<<< HEAD
       console.log('refreshing')
-=======
->>>>>>> master
       axios.get(`http://localhost:5050/query/${dbname}/sql/select from V`,
         {
           headers: {
