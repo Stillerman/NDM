@@ -30,11 +30,10 @@ ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 WORKDIR /usr/src/app
+COPY package.json .
+RUN npm install --production-only
 COPY . .
 RUN echo "export const dbname = '$dbname'" > src/dbname.js
-
-RUN npm install --production-only
-RUN ls
 RUN npm run build
 RUN cp -r dist/* /usr/share/nginx/html
 COPY default.conf /etc/nginx/conf.d

@@ -54,3 +54,7 @@ browse to http://localhost:2480
 login in to ndm database as admin/admin
 click the 'schema tag'
 ```
+
+Rebuilding client while compose stays live:
+docker-compose up -d --no-deps --build web
+
