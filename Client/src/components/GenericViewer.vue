@@ -62,15 +62,8 @@
     <div class="card editor" v-bind:class="{active: editing}">
       <div class="card-content">
         <span class="card-title">Generic Editor</span>
+        <a class="btn-flat wave-effects">Open in separate window</a>
         <v-select v-model="selectedType" :options="types"></v-select>
-        <div class="input-field col s6">
-          <input v-model="title" id="title" type="text">
-          <label for="title">Title</label>
-        </div>
-        <div class="input-field col s12">
-          <textarea id="textarea1" class="materialize-textarea"></textarea>
-          <label for="textarea1">Brief</label>
-        </div>
         <div v-for="field in Object.keys(additionalFields)" class="input-field col s6">
           <input v-model="additionalFields[field]" :id="field" type="text">
           <label :for="field">{{field}}</label>
@@ -166,6 +159,7 @@ export default {
   },
   methods: {
     refresh () {
+      console.log('refreshing')
       axios.get(`http://localhost:5050/query/${dbname}/sql/select from V`,
         {
           headers: {
