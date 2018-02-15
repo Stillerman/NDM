@@ -34,8 +34,9 @@
     <div v-for="entry in entries" class="row">
       <div class="col s12 m12">
         <div class="card blue-grey darken-1" @contextmenu.prevent="$refs.ctxMenu.open($event, entry)">
+          <span class="new badge" style="left: 10px;" data-badge-caption="">{{entry['@class']}}</span>
           <div class="card-content white-text">
-            <span class="card-title">{{entry['@class']}}</span>
+            <span class="card-title">{{retrieve('title', entry)}}</span>
 
             <!-- Dropdown Trigger -->
             <a class='dropdown-button btn' :data-activates='md5(entry)'>Change View</a>
@@ -47,6 +48,7 @@
               <li class="divider"></li>
               <li><a href="#!">Custom View 1</a></li>
             </ul>
+            <p>{{retrieve('body', entry)}}</p>
             <ul>
               <li v-for="key in Object.keys(entry)">{{key}}: {{entry[key]}}</li>
             </ul>
@@ -62,15 +64,8 @@
     <div class="card editor" v-bind:class="{active: editing}">
       <div class="card-content">
         <span class="card-title">Generic Editor</span>
+        <a class="btn-flat wave-effects" @click="openExternalEditor()">Open in separate window</a>
         <v-select v-model="selectedType" :options="types"></v-select>
-        <div class="input-field col s6">
-          <input v-model="title" id="title" type="text">
-          <label for="title">Title</label>
-        </div>
-        <div class="input-field col s12">
-          <textarea id="textarea1" class="materialize-textarea"></textarea>
-          <label for="textarea1">Brief</label>
-        </div>
         <div v-for="field in Object.keys(additionalFields)" class="input-field col s6">
           <input v-model="additionalFields[field]" :id="field" type="text">
           <label :for="field">{{field}}</label>
@@ -103,7 +98,7 @@ let defaultSettings = {
   anotherNumber: 6,
   search: ''
 }
-
+/*
 function removeEmpty (obj) {
   let newObj = {}
   Object.keys(obj).forEach(key => {
@@ -111,7 +106,7 @@ function removeEmpty (obj) {
   })
   return newObj
 }
-
+*/
 function copyToClipboard (text) {
   window.prompt('Copy to clipboard: Ctrl+C, Enter', text)
 }
@@ -138,7 +133,8 @@ export default {
       brief: '',
       additionalFields: {},
       // contextMenu
-      ctxMenuTarget: {}
+      ctxMenuTarget: {},
+      schemaMeta: {}
     }
   },
   computed: {
@@ -166,7 +162,19 @@ export default {
   },
   methods: {
     refresh () {
-      axios.get(`http://localhost:5050/query/${dbname}/sql/select from V`,
+      console.log('refreshing')
+      axios.get(`http://localhost:5050/query/${dbname}/sql/select from _schemaMetadata`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.access_token
+        }
+      })
+        .then(resp => {
+          resp.data.result.forEach(meta => {
+            console.log('meta', meta)
+            this.schemaMeta[meta.name] = JSON.parse(meta.template)
+          })
+        })
+      axios.get(`http://localhost:5050/query/${dbname}/sql/select from V where @class != "_schemaMetadata"`,
         {
           headers: {
             Authorization: 'Bearer ' + localStorage.access_token
@@ -186,6 +194,14 @@ export default {
         .then(resp => {
           this.types = resp.data.result.map(thing => thing.name)
         })
+    },
+    retrieve (field, entry) {
+      if (!this.schemaMeta[entry['@class']]) console.log('No metadata for', entry['@class'])
+      else {
+        return this.schemaMeta[entry['@class']][field].map(key => {
+          return entry[key]
+        }).join(' ')
+      }
     },
     goto (guid) {
       alert('Going to ' + guid)
@@ -243,6 +259,13 @@ export default {
       url = url.substr(0, url.length - 1) // Remove excess '&'
       copyToClipboard(url)
     },
+    openExternalEditor () {
+      let getArgs = 'type=' + this.selectedType
+      Object.keys(this.additionalFields).forEach(key => {
+        if (this.additionalFields[key]) getArgs += '&' + key + '=' + this.additionalFields[key]
+      })
+      this.$router.push('/genericeditor?' + getArgs)
+    },
     saveSettings (set) {
       console.log('saving settings', set)
       localStorage.setItem('settings', JSON.stringify(set))
@@ -255,20 +278,16 @@ export default {
       return hash(JSON.stringify(obj))
     },
     submit () {
-      console.log(`http://localhost:5050/query/${dbname}/sql/insert into ${this.selectedType} (${Object.keys(this.additionalFields).join(', ')}) (${Object.keys(this.additionalFields).map(key => this.additionalFields[key])})`)
-      axios.get(`http://localhost:5050/query/${dbname}/sql/insert into ${this.selectedType} (${Object.keys(this.additionalFields).join(', ')}) (${Object.keys(this.additionalFields).map(key => this.additionalFields[key])})`)
-      this.entries.push({
-        who: this.getUser(),
-        what: this.selectedType,
-        when: Date(),
-        GUID: Math.random(),
-        summary: {
-          title: this.title,
-          brief: this.brief,
-          relationships: {},
-          additional: removeEmpty(this.additionalFields)
+      axios.post(`http://localhost:5050/command/${dbname}/sql`, `insert into ${this.selectedType} (${Object.keys(this.additionalFields).join(', ')}) values (${Object.keys(this.additionalFields).map(key => {
+        if (typeof this.additionalFields[key] === 'string') return '"' + this.additionalFields[key] + '"'
+        return this.additionalFields[key]
+      })})`, {
+        headers: {
+          'Content-Type': 'text/plain',
+          Authorization: 'Bearer ' + localStorage.access_token
         }
       })
+
       this.title = ''
       this.brief = ''
       this.additionalFields = {}
@@ -328,6 +347,13 @@ blockquote {
   right: 0px;
   top: 0px;
   margin: 10px;
+  position: absolute;
+}
+
+.badge {
+  left: 0px;
+  top: 0px;
+  margin: 20px;
   position: absolute;
 }
 

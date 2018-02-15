@@ -2,13 +2,8 @@
   <div class="tape-entry container">
     <h1>Generic Editor</h1>
     <v-select v-model="selectedType" :options="types"></v-select>
-    <input type="text" v-model="title" name="Title" placeholder="Title" value="">
-    <div class="input-field col s12">
-      <textarea v-model="brief" id="textarea1" class="materialize-textarea"></textarea>
-      <label for="textarea1">Brief</label>
-    </div>
     <div class="row">
-      <div v-for="field in getAdditionalFields()" class="input-field col s6">
+      <div v-for="field in Object.keys(additionalFields)" class="input-field col s6">
         <input type="text" v-model="additionalFields[field]" :name="field" :placeholder="field" value="">
       </div>
     </div>
@@ -19,6 +14,8 @@
 <script>
 import VueEditor from 'vue2-editor'
 import vSelect from 'vue-select'
+import axios from 'axios'
+import {dbname} from '../dbname'
 
 function parseQueryString (query) {
   var vars = query.split('&')
@@ -39,7 +36,7 @@ function parseQueryString (query) {
   }
   return queryString
 }
-
+/*
 function removeEmpty (obj) {
   let newObj = {}
   Object.keys(obj).forEach(key => {
@@ -47,11 +44,16 @@ function removeEmpty (obj) {
   })
   return newObj
 }
-
+*/
 export default {
   components: {
     ve: VueEditor,
     vSelect
+  },
+  watch: {
+    selectedType () {
+      this.getAdditionalFields()
+    }
   },
   data () {
     return {
@@ -63,6 +65,16 @@ export default {
     }
   },
   mounted () {
+    axios.get(`http://localhost:5050/query/${dbname}/sql/select from (SELECT expand(classes) from metadata:schema) where abstract == false and not (name like "_%25" or name like "O%25") and name != "V" and name != "E"`,
+      {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.access_token
+        }
+      })
+      .then(resp => {
+        this.types = resp.data.result.map(thing => thing.name)
+      })
+
     let query = parseQueryString(window.location.search.substring(1))
     console.log('query', query, document)
     Object.keys(query).forEach(key => {
@@ -74,30 +86,34 @@ export default {
   },
   methods: {
     getAdditionalFields () {
-      let fields = this.selectedType === 'Tape' ? ['Voltage Tap', 'Voltage Floor', 'Ramp Rate', 'v Goal'] : ['Random Field']
-      fields.forEach(f => {
-        // initiate blank field if not already
-        if (!this.additionalFields.hasOwnProperty(f)) this.$set(this.additionalFields, f, '')
-      })
-      return fields
-    },
-    submit () {
-      console.log('created', {
-        who: this.getUser(),
-        what: this.selectedType,
-        when: Date(),
-        GUID: Math.random(),
-        summary: {
-          title: this.title,
-          brief: this.brief,
-          relationships: {},
-          additional: removeEmpty(this.additionalFields)
+      axios.get(`http://localhost:5050/query/${dbname}/sql/select expand(properties) from (select expand(classes) from metadata:schema) where name = "${this.selectedType}"`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.access_token
         }
       })
-      this.title = ''
-      this.brief = ''
-      this.additionalFields = {}
-      this.editing = false
+      .then(resp => {
+        console.log('RESPONSE', resp)
+        let query = parseQueryString(window.location.search.substring(1))
+        let fields = resp.data.result.map(thing => thing.name)
+        this.additionalFields = {}
+        fields.forEach(f => {
+          // initiate blank field if not already
+          if (!this.additionalFields.hasOwnProperty(f)) this.$set(this.additionalFields, f, query[f] || '')
+        })
+      })
+    },
+    submit () {
+      axios.post(`http://localhost:5050/command/${dbname}/sql`, `insert into ${this.selectedType} (${Object.keys(this.additionalFields).join(', ')}) values (${Object.keys(this.additionalFields).map(key => {
+        if (typeof this.additionalFields[key] === 'string') return '"' + this.additionalFields[key] + '"'
+        return this.additionalFields[key]
+      })})`, {
+        headers: {
+          'Content-Type': 'text/plain',
+          Authorization: 'Bearer ' + localStorage.access_token
+        }
+      })
+
+      this.$router.push('genericviewer')
     }
   }
 }
