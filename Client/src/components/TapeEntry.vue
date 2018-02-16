@@ -31,12 +31,8 @@
 </template>
 
 <script>
-import VueEditor from 'vue2-editor'
 
 export default {
-  components: {
-    ve: VueEditor
-  },
   data () {
     return {
       sampleName: '',
