@@ -15,7 +15,6 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
-    "EventEmitter": "^1.0.0",
     "apollo-client": "^1.6.0",
     "auth0-js": "^9.2.2",
     "axios": "^0.16.2",
@@ -35,7 +34,6 @@
     "vue-context-menu": "^2.0.6",
     "vue-router": "^3.0.0",
     "vue-select": "^2.4.0",
-    "vue2-editor": "^2.4.2",
     "vuex": "^3.0.0"
   },
   "devDependencies": {

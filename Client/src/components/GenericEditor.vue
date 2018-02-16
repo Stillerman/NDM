@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import VueEditor from 'vue2-editor'
 import vSelect from 'vue-select'
 import axios from 'axios'
 import {dbname} from '../dbname'
@@ -47,7 +46,6 @@ function removeEmpty (obj) {
 */
 export default {
   components: {
-    ve: VueEditor,
     vSelect
   },
   watch: {
