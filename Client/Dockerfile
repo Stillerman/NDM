@@ -31,6 +31,7 @@ ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 WORKDIR /usr/src/app
 COPY package.json .
+COPY package-lock.json .
 RUN npm install --production-only
 COPY . .
 RUN echo "export const dbname = '$dbname'" > src/dbname.js
