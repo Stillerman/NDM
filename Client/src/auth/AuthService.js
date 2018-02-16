@@ -1,6 +1,5 @@
 import auth0 from 'auth0-js'
 import { AUTH_CONFIG } from './auth0-variables'
-import EventEmitter from 'EventEmitter'
 import router from './../router'
 
 export default class AuthService {
@@ -10,7 +9,6 @@ export default class AuthService {
     this.logout = this.logout.bind(this)
     this.isAuthenticated = this.isAuthenticated.bind(this)
     this.authenticated = this.isAuthenticated()
-    this.authNotifier = new EventEmitter()
     this.auth0 = new auth0.WebAuth({
       domain: AUTH_CONFIG.domain,
       clientID: AUTH_CONFIG.clientId,
@@ -53,7 +51,6 @@ export default class AuthService {
     localStorage.setItem('sub', authResult.idTokenPayload.sub)
 
     localStorage.setItem('expires_at', expiresAt)
-    this.authNotifier.emit('authChange', { authenticated: true })
   }
 
   logout () {
@@ -62,7 +59,6 @@ export default class AuthService {
     localStorage.removeItem('id_token')
     localStorage.removeItem('expires_at')
     this.userProfile = null
-    this.authNotifier.emit('authChange', false)
     // navigate to the home route
     router.replace('/')
   }
